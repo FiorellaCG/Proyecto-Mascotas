@@ -35,5 +35,3 @@ El proyecto sigue una arquitectura separada (Full Stack):
 2. Instala los paquetes de Node: `npm install`.
 3. Levanta el servidor de desarrollo: `npm run dev`.
 
----
-*Desarrollado para el proyecto: Cuidados Los Patitos S.A.*
