@@ -1,0 +1,493 @@
+.home-container {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #1A1A1A;
+  background-color: #FFFFFF;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+section {
+  width: 100%;
+}
+
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.section-title {
+  color: #1A1A1A;
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 40px;
+  font-weight: 700;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: #F5A800;
+  margin: 12px auto 0 auto;
+  border-radius: 2px;
+}
+
+/* ==================================
+   1. HERO SECTION 
+   ================================== */
+.hero-section {
+  position: relative;
+  min-height: calc(100vh - 64px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom: 3px solid #F5A800;
+}
+
+.hero-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-logo {
+  width: 160px;
+  height: auto;
+  margin-bottom: 24px;
+  animation: fadeInDown 1s ease-out;
+}
+
+.hero-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: #1A1A1A;
+  font-weight: 700;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.hero-subtitle {
+  color: #555555;
+  font-size: 1.1rem;
+  margin-bottom: 40px;
+  line-height: 1.5;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btn-primary {
+  background-color: #F5A800;
+  color: #1A1A1A;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: #D4900A;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #F5A800;
+  border: 2px solid #F5A800;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(245, 168, 0, 0.1);
+}
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  color: #F5A800;
+  font-size: 2rem;
+  cursor: pointer;
+  animation: bounce 2s infinite;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-15px); }
+  60% { transform: translateY(-7px); }
+}
+
+/* ==================================
+   2. SERVICIOS SECTION
+   ================================== */
+.services-section {
+  background-color: #F8F8F8;
+  padding: 80px 0;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.service-card {
+  background-color: #FFFFFF;
+  border: 1px solid #EEEEEE;
+  border-radius: 12px;
+  padding: 30px 24px;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+}
+
+.service-card:hover {
+  border-color: #F5A800;
+  box-shadow: 0 4px 20px rgba(245,168,0,0.15);
+  transform: scale(1.02);
+}
+
+.icon-wrapper {
+  background-color: #FFF3CD;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.icon {
+  font-size: 1.5rem;
+}
+
+.service-card h3 {
+  color: #1A1A1A;
+  margin-bottom: 12px;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.service-card p {
+  color: #555555;
+  font-size: 0.95rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ==================================
+   3. NIVELES DE ASISTENCIA SECTION
+   ================================== */
+.assistance-section {
+  background-color: #FFFFFF;
+  padding: 80px 0;
+}
+
+.assistance-cards {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: nowrap;
+}
+
+.asist-card {
+  background-color: #FFFFFF;
+  border: 1px solid #EEEEEE;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  transition: all 0.3s ease;
+}
+
+.asist-card:hover {
+  border-color: #F5A800;
+  box-shadow: 0 4px 20px rgba(245,168,0,0.15);
+}
+
+.asist-info h3 {
+  color: #1A1A1A;
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+  margin-top: 0;
+  font-weight: 600;
+}
+
+.asist-info p {
+  color: #555555;
+  font-size: 0.85rem;
+  margin-bottom: 20px;
+}
+
+.badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  align-self: flex-start;
+}
+
+.badge-green { background-color: #E8F8F0; color: #28C76F; }
+.badge-blue { background-color: #E8F0FF; color: #1E90FF; }
+.badge-yellow { background-color: #FFF3CD; color: #D4900A; }
+
+/* ==================================
+   4. PAQUETES ADICIONALES SECTION
+   ================================== */
+.packages-section {
+  background-color: #F8F8F8;
+  padding: 80px 0;
+}
+
+.packages-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.package-card {
+  background-color: #FFFFFF;
+  border: 1px solid #EEEEEE;
+  border-top: 3px solid #F5A800;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.package-card:hover {
+  border-color: #F5A800;
+  box-shadow: 0 4px 20px rgba(245,168,0,0.15);
+}
+
+.package-card h3 {
+  color: #1A1A1A;
+  font-size: 1.3rem;
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.package-card p {
+  color: #555555;
+  font-size: 0.95rem;
+  flex-grow: 1;
+  margin-bottom: 20px;
+}
+
+.package-card .price {
+  color: #1A1A1A;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.btn-add {
+  background-color: #F5A800;
+  color: #1A1A1A;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-add:hover {
+  background-color: #D4900A;
+}
+
+/* ==================================
+   5. NOSOTROS SECTION
+   ================================== */
+.about-section {
+  background-color: #FFFFFF;
+  padding: 80px 0;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.about-item {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.icon-circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.circle-green { background-color: #E8F8F0; }
+.circle-blue { background-color: #E8F0FF; }
+.circle-yellow { background-color: #FFF3CD; }
+
+.about-item .icon {
+  font-size: 1.8rem;
+}
+
+.about-item h4 {
+  color: #1A1A1A;
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.about-desc {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+  color: #555555;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+/* ==================================
+   6. CONTACTO SECTION
+   ================================== */
+.contact-section {
+  background-color: #F8F8F8;
+  padding: 80px 0;
+}
+
+.contact-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+}
+
+.contact-info h3 {
+  color: #1A1A1A;
+  font-size: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+
+.contact-info p {
+  color: #555555;
+  margin-bottom: 16px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.contact-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  background-color: #FFFFFF;
+  border: 1px solid #DDDDDD;
+  padding: 14px;
+  border-radius: 8px;
+  color: #1A1A1A;
+  font-family: inherit;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #F5A800;
+}
+
+.btn-submit {
+  background-color: #F5A800;
+  color: #1A1A1A;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  width: 100%;
+}
+
+.btn-submit:hover {
+  background-color: #D4900A;
+}
+
+/* ==================================
+   RESPONSIVE DESIGN 
+   ================================== */
+@media screen and (max-width: 900px) {
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .hero-buttons {
+    flex-direction: column;
+  }
+  
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .assistance-cards {
+    flex-direction: column;
+  }
+
+  .packages-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .contact-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}

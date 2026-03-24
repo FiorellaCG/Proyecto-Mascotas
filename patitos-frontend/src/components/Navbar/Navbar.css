@@ -1,0 +1,171 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 68px;
+  background-color: #FFFFFF;
+  border-bottom: 2px solid #F5A800;
+  z-index: 100;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  box-sizing: border-box;
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.navbar-logo {
+  height: 44px;
+  width: auto;
+}
+
+.navbar-title {
+  color: #1A1A1A;
+  font-weight: 700;
+  font-size: 18px;
+  margin-left: 10px;
+}
+
+.navbar-mid {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.nav-links {
+  display: flex;
+  gap: 4px;
+}
+
+.nav-links a {
+  color: #333333;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.nav-links a:hover {
+  background-color: #FFF3CD;
+  color: #D4900A;
+}
+
+.divider {
+  width: 1px;
+  height: 24px;
+  background-color: #DDDDDD;
+  margin: 0 16px;
+}
+
+.session-area {
+  display: flex;
+  align-items: center;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  cursor: pointer;
+  z-index: 1001;
+  margin-left: auto;
+}
+
+.menu-toggle .bar {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background-color: #1A1A1A;
+  border-radius: 2px;
+  transition: all 0.3s ease-in-out;
+}
+
+.menu-toggle .bar.open:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.menu-toggle .bar.open:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle .bar.open:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* RESPONSIVE: Mobile Devices */
+@media screen and (max-width: 768px) {
+  .menu-toggle {
+    display: flex;
+  }
+
+  .navbar-mid {
+    position: fixed;
+    top: 68px;
+    left: 0;
+    width: 100%;
+    height: auto;
+    background-color: #FFFFFF;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px 0;
+    gap: 20px;
+    transform: translateY(-150%);
+    transition: transform 0.3s ease-in-out;
+    border-bottom: 2px solid #F5A800;
+    z-index: 1000;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+  }
+
+  .navbar-mid.active {
+    transform: translateY(0);
+  }
+
+  .nav-links {
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .nav-links a {
+    width: 90%;
+    text-align: center;
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  .divider {
+    width: 80%;
+    height: 1px;
+    margin: 10px 0;
+  }
+
+  .user-profile {
+    flex-direction: column;
+    gap: 12px;
+  }
+}

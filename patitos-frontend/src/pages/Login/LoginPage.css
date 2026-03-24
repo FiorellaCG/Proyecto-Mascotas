@@ -1,0 +1,100 @@
+.login-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #0A0A0A;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.login-card {
+  background-color: #1A1A1A;
+  border: 1px solid #F5A800;
+  border-radius: 12px;
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.login-logo {
+  width: 120px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.login-title {
+  color: #F5A800;
+  font-weight: 600;
+  font-size: 24px;
+  margin-bottom: 30px;
+  text-align: center;
+  margin-top: 0;
+}
+
+.login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  color: #FFFFFF;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.form-group input {
+  background-color: #2A2A2A;
+  border: 1px solid #444;
+  color: #FFFFFF;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+  outline: none;
+}
+
+.form-group input:focus {
+  border-color: #F5A800;
+}
+
+.login-button {
+  background-color: #F5A800;
+  color: #000000;
+  font-weight: 600;
+  border: none;
+  padding: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+  transition: background-color 0.2s;
+}
+
+.login-button:hover {
+  background-color: #ebb540;
+}
+
+.login-button:disabled {
+  background-color: #a67508;
+  cursor: not-allowed;
+}
+
+.login-error {
+  color: #FF6B6B;
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+}

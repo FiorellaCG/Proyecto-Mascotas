@@ -1,0 +1,102 @@
+.footer {
+  background-color: #1A1A1A;
+  color: #AAAAAA;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  padding-top: 40px;
+  width: 100%;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  padding: 0 24px 40px 24px;
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.footer-logo {
+  height: 32px;
+  width: auto;
+  margin-right: 12px;
+  /* Make the logo look white assuming it's a black/colored logo with transparent bg */
+  filter: brightness(0) invert(1);
+}
+
+.footer-title {
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.footer-desc {
+  line-height: 1.5;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.footer-col h3 {
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.footer-links, .footer-contact {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-links li a {
+  color: #AAAAAA;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+
+.footer-links li a:hover {
+  color: #F5A800;
+}
+
+.footer-contact li {
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-bottom {
+  border-top: 1px solid #333333;
+  padding: 20px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #AAAAAA;
+}
+
+.footer-bottom p {
+  margin: 0;
+}
+
+/* RESPONSIVE: Mobile Devices */
+@media screen and (max-width: 768px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
