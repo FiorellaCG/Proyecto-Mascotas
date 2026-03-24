@@ -1,14 +1,14 @@
-# 🐾 Cuidados Los Patitos S.A. - Proyecto Mascotas
+# Cuidados Los Patitos S.A. - Proyecto Mascotas
 
 Este es un sistema integral para la gestión de una guardería y centro de cuidado de mascotas, diseñado para administrar usuarios, mascotas, habitaciones, reservaciones y monitoreo. El proyecto está dividido en un frontend interactivo y un backend robusto que provee una API REST.
 
-## 🚀 Tecnologías Principales
+## Tecnologías Principales
 
 *   **Frontend**: React (creado con Vite), JavaScript, CSS.
 *   **Backend**: Python, Django, Django REST Framework.
 *   **Base de Datos**: Microsoft SQL Server.
 
-## 📂 Estructura del Proyecto
+## Estructura del Proyecto
 
 El proyecto sigue una arquitectura separada (Full Stack):
 
@@ -22,7 +22,7 @@ El proyecto sigue una arquitectura separada (Full Stack):
     *   `monitoreo/`: Seguimiento y estado de las mascotas durante su estancia.
     *   `especialistas/`: Control del personal encargado del cuidado.
 
-## 🛠️ Cómo Ejecutar el Proyecto
+## Cómo Ejecutar el Proyecto
 
 ### Backend (Django)
 1. Activa tu entorno virtual: `.\venv\Scripts\Activate.ps1` (en Windows).
