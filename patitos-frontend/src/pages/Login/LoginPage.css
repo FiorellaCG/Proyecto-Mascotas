@@ -3,36 +3,37 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #0A0A0A;
+  background-color: #F8F8F8;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   margin: 0;
   padding: 0;
 }
 
 .login-card {
-  background-color: #1A1A1A;
-  border: 1px solid #F5A800;
-  border-radius: 12px;
-  padding: 40px;
+  background-color: #FFFFFF;
+  border: 1px solid #EEEEEE;
+  border-radius: 16px;
+  padding: 36px;
   width: 100%;
-  max-width: 400px;
+  max-width: 480px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
 }
 
 .login-logo {
-  width: 120px;
+  width: 80px;
   height: auto;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .login-title {
-  color: #F5A800;
-  font-weight: 600;
+  color: #1A1A1A;
+  font-weight: 700;
   font-size: 24px;
-  margin-bottom: 30px;
+  margin-bottom: 24px;
   text-align: center;
   margin-top: 0;
 }
@@ -46,24 +47,31 @@
 .form-group {
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .form-group label {
-  color: #FFFFFF;
-  margin-bottom: 8px;
+  color: #1A1A1A;
+  margin-bottom: 6px;
   font-size: 14px;
+  font-weight: 500;
 }
 
 .form-group input {
-  background-color: #2A2A2A;
-  border: 1px solid #444;
-  color: #FFFFFF;
-  padding: 12px;
-  border-radius: 6px;
+  background-color: #FFFFFF;
+  border: 1px solid #DDDDDD;
+  color: #1A1A1A;
+  padding: 10px 14px;
+  border-radius: 8px;
   font-size: 14px;
   transition: border-color 0.2s;
   outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-group input::placeholder {
+  color: #AAAAAA;
 }
 
 .form-group input:focus {
@@ -72,15 +80,16 @@
 
 .login-button {
   background-color: #F5A800;
-  color: #000000;
+  color: #1A1A1A;
   font-weight: 600;
   border: none;
-  padding: 14px;
-  border-radius: 6px;
+  padding: 12px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 15px;
   width: 100%;
   transition: background-color 0.2s;
+  margin-top: 8px;
 }
 
 .login-button:hover {
@@ -89,12 +98,17 @@
 
 .login-button:disabled {
   background-color: #a67508;
+  color: #666666;
   cursor: not-allowed;
 }
 
 .login-error {
+  background-color: #FFEBEB;
   color: #FF6B6B;
-  margin-top: 20px;
+  border: 1px solid #FF6B6B;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  margin-top: 12px;
   text-align: center;
-  font-size: 14px;
 }

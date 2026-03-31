@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import LoginPage from '../pages/Login/LoginPage';
+import RegistroPage from '../pages/Auth/RegistroPage';
 import HomePage from '../pages/Home/HomePage';
 import MascotasPendientesPage from '../pages/Admin/MascotasPendientesPage';
 import DashboardDuenoPage from '../pages/MiCuenta/DashboardDuenoPage';
@@ -37,6 +38,21 @@ const NoAutorizado = () => (
   </div>
 );
 
+function PublicOnlyRoute({ children }) {
+  const { usuario, loading } = useAuth();
+  if (loading) return null;
+  if (usuario) {
+    const rutas = {
+      'Administrador': '/admin/dashboard',
+      'Dueño': '/mi-cuenta/dashboard',
+      'Especialista': '/especialista/dashboard',
+      'Personal limpieza': '/limpieza/dashboard',
+    };
+    return <Navigate to={rutas[usuario.rol_nombre] || '/'} replace />;
+  }
+  return children;
+}
+
 // Pŕotection Dashboards Mock Components (Placeholder if none exists)
 const AdminDashboard = () => <div style={{color:'white', padding: 20}}>Admin Dashboard</div>;
 const DuenoDashboard = () => <div style={{color:'white', padding: 20}}>Dueño Dashboard</div>;
@@ -49,7 +65,8 @@ const AppRoutes = () => {
       {/* Public Routes */}
       <Route path="/" element={<HomePage />} />
       <Route path="/inicio" element={<Navigate to="/" replace />} />
-      <Route path="/login" element={<LoginPage />} />
+      <Route path="/login" element={<PublicOnlyRoute><LoginPage /></PublicOnlyRoute>} />
+      <Route path="/registro" element={<PublicOnlyRoute><RegistroPage /></PublicOnlyRoute>} />
       <Route path="/no-autorizado" element={<NoAutorizado />} />
       
       {/* Protected Routes */}

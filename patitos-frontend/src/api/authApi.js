@@ -8,5 +8,6 @@ const api = axios.create({
 export const loginApi  = (correo, password) => api.post('/api/auth/login/', { correo, password });
 export const logoutApi = ()                 => api.post('/api/auth/logout/');
 export const getMeApi  = ()                 => api.get('/api/auth/me/');
+export const registrarUsuario = (data)      => api.post('/api/auth/registro/', data);
 
 export default api;

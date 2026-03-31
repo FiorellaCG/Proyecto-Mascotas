@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useContext } from 'react';
-import { getMeApi, loginApi, logoutApi } from '../api/authApi';
+import { getMeApi, loginApi, logoutApi, registrarUsuario } from '../api/authApi';
 
 const AuthContext = createContext();
 
@@ -47,8 +47,20 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const register = async (data) => {
+    try {
+      const response = await registrarUsuario(data);
+      if (response.status === 201) {
+        setUsuario(response.data);
+        return response.data;
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ usuario, loading, login, logout }}>
+    <AuthContext.Provider value={{ usuario, loading, login, logout, register }}>
       {children}
     </AuthContext.Provider>
   );

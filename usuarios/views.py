@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.utils.timezone import now
 from usuarios.models import Usuario
-from usuarios.serializers import LoginSerializer, UsuarioSerializer
+from usuarios.serializers import LoginSerializer, UsuarioSerializer, RegistroSerializer
 
 class LoginView(APIView):
     permission_classes = [AllowAny]
@@ -21,6 +21,19 @@ class LoginView(APIView):
         Usuario.objects.filter(pk=usuario.pk).update(ultimo_acceso=now())
 
         return Response(UsuarioSerializer(usuario).data, status=status.HTTP_200_OK)
+
+class RegistroView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = RegistroSerializer(data=request.data)
+        if serializer.is_valid():
+            usuario = serializer.save()
+            # Iniciar sesión automáticamente después del registro
+            request.session['usuario_id'] = usuario.usuario_id
+            Usuario.objects.filter(pk=usuario.usuario_id).update(ultimo_acceso=now())
+            return Response(UsuarioSerializer(usuario).data, status=201)
+        return Response(serializer.errors, status=400)
 
 class LogoutView(APIView):
     # Depending on settings, IsAuthenticated is usually the default, but we can allow anyone to log out if they want

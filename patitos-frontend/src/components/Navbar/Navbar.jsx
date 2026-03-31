@@ -100,21 +100,41 @@ const Navbar = () => {
           {/* User Session Area */}
           <div className="session-area">
             {!loading && usuario === null && (
-              <button 
-                onClick={handleLoginRedirect}
-                style={{
-                  background: '#F5A800',
-                  color: '#1A1A1A',
-                  fontWeight: 600,
-                  padding: '9px 22px',
-                  borderRadius: '8px',
-                  border: 'none',
-                  fontSize: '14px',
-                  cursor: 'pointer',
-                }}
-              >
-                Ingresar
-              </button>
+              <>
+                <button 
+                  onClick={() => navigate('/registro')}
+                  style={{
+                    background: 'transparent',
+                    color: '#1A1A1A',
+                    border: '1px solid #DDDDDD',
+                    padding: '8px 18px',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    marginRight: '8px',
+                  }}
+                  onMouseOver={(e) => e.target.style.background = '#F8F8F8'}
+                  onMouseOut={(e) => e.target.style.background = 'transparent'}
+                >
+                  Registrarse
+                </button>
+                <button 
+                  onClick={handleLoginRedirect}
+                  style={{
+                    background: '#F5A800',
+                    color: '#1A1A1A',
+                    fontWeight: 600,
+                    padding: '9px 22px',
+                    borderRadius: '8px',
+                    border: 'none',
+                    fontSize: '14px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Ingresar
+                </button>
+              </>
             )}
 
             {!loading && usuario !== null && (
