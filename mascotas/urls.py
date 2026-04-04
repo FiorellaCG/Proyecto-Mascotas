@@ -1,8 +1,9 @@
 from django.urls import path
 from .views import (
+    NivelesAsistenciaView, TiposCuidadoView,
     MisMascotasView, RegistrarMascotaView, MascotaDetalleView,
     MascotasPendientesView, AprobarMascotaView, TodasMascotasView,
-    NivelesAsistenciaView, TiposCuidadoView, AsignarEspecialistaView
+    AsignarEspecialistaView
 )
 
 urlpatterns = [

@@ -176,7 +176,7 @@ const Navbar = () => {
                 </button>
                 <button 
                   onClick={handleLogout} 
-                  style={{color:'#1A1A1A', background:'transparent', border:'none', fontWeight:600, cursor:'pointer', fontSize:14, marginLeft:12}}
+                  style={{ background:'transparent', border:'1px solid #FF6B6B', color:'#FF6B6B', borderRadius:'8px', padding:'8px 16px', cursor:'pointer', fontWeight:600, marginLeft: 12 }}
                 >
                   Salir
                 </button>

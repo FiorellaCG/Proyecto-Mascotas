@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getMisMascotas } from '../../api/mascotasApi';
+import Navbar from '../../components/Navbar/Navbar';
 
 const MisMascotasPage = () => {
   const [mascotas, setMascotas] = useState([]);
@@ -22,7 +23,9 @@ const MisMascotasPage = () => {
   }, []);
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '40px auto', padding: '0 24px' }}>
+    <>
+      <Navbar />
+      <div style={{ maxWidth: '1000px', margin: '40px auto', padding: '0 24px' }}>
       <style>
         {`
           @keyframes spin {
@@ -134,6 +137,7 @@ const MisMascotasPage = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 
