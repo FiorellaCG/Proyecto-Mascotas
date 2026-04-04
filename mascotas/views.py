@@ -1,4 +1,5 @@
 from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
@@ -22,6 +23,8 @@ def get_usuario_session(request):
         return None, Response({'detail': 'Usuario no encontrado'}, status=404)
 
 class MisMascotasView(APIView):
+    permission_classes = [AllowAny]
+
     def get(self, request):
         usuario, err = get_usuario_session(request)
         if err: return err
@@ -31,6 +34,8 @@ class MisMascotasView(APIView):
         return Response(MascotaListSerializer(mascotas, many=True).data)
 
 class RegistrarMascotaView(APIView):
+    permission_classes = [AllowAny]
+
     def post(self, request):
         usuario, err = get_usuario_session(request)
         if err: return err
@@ -44,13 +49,17 @@ class RegistrarMascotaView(APIView):
         return Response(serializer.errors, status=400)
 
 class MascotaDetalleView(APIView):
-    def get(self, request, pk):
+    permission_classes = [AllowAny]
+
+    def get(self, request, mascota_id):
         usuario, err = get_usuario_session(request)
         if err: return err
-        mascota = get_object_or_404(Mascota, pk=pk, dueno_usuario_id=usuario.usuario_id)
+        mascota = get_object_or_404(Mascota, pk=mascota_id, dueno_usuario_id=usuario.usuario_id)
         return Response(MascotaDetailSerializer(mascota).data)
 
 class MascotasPendientesView(APIView):
+    permission_classes = [AllowAny]
+
     def get(self, request):
         usuario, err = get_usuario_session(request)
         if err: return err
@@ -61,12 +70,14 @@ class MascotasPendientesView(APIView):
         return Response(MascotaDetailSerializer(mascotas, many=True).data)
 
 class AprobarMascotaView(APIView):
-    def patch(self, request, pk):
+    permission_classes = [AllowAny]
+
+    def patch(self, request, mascota_id):
         usuario, err = get_usuario_session(request)
         if err: return err
         if usuario.rol.nombre != 'Administrador':
             return Response({'detail': 'Sin permiso'}, status=403)
-        mascota = get_object_or_404(Mascota, pk=pk)
+        mascota = get_object_or_404(Mascota, pk=mascota_id)
         aprobar = request.data.get('aprobar')
         mascota.aprobada = bool(aprobar)
         mascota.aprobada_por_id = usuario.usuario_id
@@ -76,6 +87,8 @@ class AprobarMascotaView(APIView):
         return Response({'detail': msg})
 
 class TodasMascotasView(APIView):
+    permission_classes = [AllowAny]
+
     def get(self, request):
         usuario, err = get_usuario_session(request)
         if err: return err
@@ -91,9 +104,13 @@ class TodasMascotasView(APIView):
         return Response(MascotaListSerializer(qs, many=True).data)
 
 class NivelesAsistenciaView(APIView):
+    permission_classes = [AllowAny]
+
     def get(self, request):
         return Response(NivelAsistenciaSerializer(Nivelasistencia.objects.all().order_by('nivel_id'), many=True).data)
 
 class TiposCuidadoView(APIView):
+    permission_classes = [AllowAny]
+
     def get(self, request):
         return Response(TipoCuidadoSerializer(Tipocuidadoespecial.objects.all().order_by('tipo_cuidado_id'), many=True).data)

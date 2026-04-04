@@ -43,7 +43,6 @@ export const AuthProvider = ({ children }) => {
       await logoutApi();
     } finally {
       setUsuario(null);
-      window.location.href = '/login'; // Force redirect to login page logic
     }
   };
 

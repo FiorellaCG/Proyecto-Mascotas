@@ -195,25 +195,16 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* SECCIÓN 6: CONTACTO */}
+      {/* SECCIÓN 6: INFORMACIÓN */}
       <section id="contacto" className="contact-section">
         <div className="section-container">
-          <h2 className="section-title">Contáctanos</h2>
-          <div className="contact-container">
-            <div className="contact-info">
-              <h3>Información</h3>
-              <p><span>📍</span> Dirección: San José, Costa Rica</p>
-              <p><span>📞</span> Teléfono: +506 2222-3333</p>
-              <p><span>📧</span> Correo: info@lospatitos.cr</p>
-              <p><span>🕒</span> Horario: Lunes a Domingo, 24 horas</p>
-            </div>
-            <div className="contact-form">
-              <form onSubmit={(e) => e.preventDefault()}>
-                <input type="text" placeholder="Nombre completo" required />
-                <input type="email" placeholder="Correo electrónico" required />
-                <textarea rows="4" placeholder="Escribe tu mensaje aquí..." required></textarea>
-                <button type="submit" className="btn-submit">Enviar mensaje</button>
-              </form>
+          <h2 className="section-title">Información</h2>
+          <div className="contact-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div className="contact-info" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+              <p style={{ justifyContent: 'center' }}><span>📍</span> Dirección: San José, Costa Rica</p>
+              <p style={{ justifyContent: 'center' }}><span>📞</span> Teléfono: +506 2222-3333</p>
+              <p style={{ justifyContent: 'center' }}><span>📧</span> Correo: info@lospatitos.cr</p>
+              <p style={{ justifyContent: 'center' }}><span>🕒</span> Horario: Lunes a Domingo, 24 horas</p>
             </div>
           </div>
         </div>
