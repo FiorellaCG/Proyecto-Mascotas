@@ -82,17 +82,17 @@ WSGI_APPLICATION = 'patitos_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'mssql',
         'NAME': 'PatitosDB',
+        'HOST': 'Localhost\\SQLEXPRESS',
+        'USER': '',
+        'PASSWORD': '',
         'OPTIONS': {
             'driver': 'ODBC Driver 17 for SQL Server',
-            'server': 'localhost\\SQLEXPRESS',
-            'trusted_connection': 'yes',
-            'extra_params': 'TrustServerCertificate=yes;',
-        },
+            'Trusted_Connection': 'yes',
+        }
     }
 }
 

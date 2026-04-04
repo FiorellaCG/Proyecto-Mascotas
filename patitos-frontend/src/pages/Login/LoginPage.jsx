@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import Navbar from '../../components/Navbar/Navbar';
 import './LoginPage.css';
 
 const LoginPage = () => {
@@ -45,7 +44,6 @@ const LoginPage = () => {
 
   return (
     <>
-      <Navbar />
       <div className="login-page-container">
         <div className="login-card">
           <img src="/assets/logo.png" alt="Logo Los Patitos" className="login-logo" />

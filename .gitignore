@@ -1,0 +1,81 @@
+# ===== DJANGO / PYTHON =====
+# SQLite database
+db.sqlite3
+db.sqlite3-journal
+*.sqlite3
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# ===== NODE.JS / FRONTEND =====
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.eslintcache
+
+# Vite build
+dist/
+.vite
+
+# ===== DESARROLLO LOCAL =====
+# Archivos de testing locales
+test.http (opcional - comentar si quieres compartirlo)
+
+# Logs
+logs/
+*.log
+
+# OS
+Thumbs.db
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ===== IDE SETTINGS =====
+.vscode/extensions
+.vscode/settings.json
+.vscode/launch.json
+
+# Archivos temporales
+*.tmp
+*.bak
+*.swp
+
+# ===== ESPECÍFICO DEL PROYECTO =====
+# Datos temporales
+/tmp/
+/temp/
+/cache/
+
+# Archivos de configuración local
+local_settings.py

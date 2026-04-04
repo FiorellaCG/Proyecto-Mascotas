@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer/Footer';
 import './HomePage.css';
 
@@ -13,8 +12,6 @@ const HomePage = () => {
 
   return (
     <div className="home-container">
-      <Navbar />
-
       {/* SECCIÓN 1: HERO */}
       <section id="hero" className="hero-section">
         <div className="section-container hero-container">

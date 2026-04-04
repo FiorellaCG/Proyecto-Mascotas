@@ -6,6 +6,7 @@ from django.utils.timezone import now
 
 from usuarios.models import Usuario
 from mascotas.models import Mascota, Nivelasistencia, Tipocuidadoespecial
+from especialistas.models import Especialista
 from mascotas.serializers import (
     NivelAsistenciaSerializer, TipoCuidadoSerializer,
     MascotaListSerializer, MascotaDetailSerializer, MascotaCreateSerializer
@@ -97,3 +98,25 @@ class NivelesAsistenciaView(APIView):
 class TiposCuidadoView(APIView):
     def get(self, request):
         return Response(TipoCuidadoSerializer(Tipocuidadoespecial.objects.all().order_by('tipo_cuidado_id'), many=True).data)
+
+class AsignarEspecialistaView(APIView):
+    def patch(self, request, pk):
+        usuario, err = get_usuario_session(request)
+        if err: return err
+        if usuario.rol.nombre != 'Administrador':
+            return Response({'detail': 'Sin permiso'}, status=403)
+        mascota = get_object_or_404(Mascota, pk=pk)
+        if not mascota.aprobada:
+            return Response({'detail': 'La mascota debe estar aprobada para asignar un especialista'}, status=400)
+        especialista_id = request.data.get('especialista_id')
+        if not especialista_id:
+            return Response({'detail': 'especialista_id es requerido'}, status=400)
+        especialista = get_object_or_404(Especialista, pk=especialista_id)
+        mascota.especialista = especialista
+        mascota.save()
+        return Response({
+            'detail': f'Especialista {especialista.usuario.nombre} asignado a {mascota.nombre}',
+            'mascota_id': mascota.mascota_id,
+            'especialista_id': especialista.especialista_id,
+            'especialista_nombre': f'{especialista.usuario.nombre} {especialista.usuario.apellidos}'
+        })

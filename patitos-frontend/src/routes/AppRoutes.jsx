@@ -8,6 +8,8 @@ import DashboardDuenoPage from '../pages/MiCuenta/DashboardDuenoPage';
 import MisMascotasPage from '../pages/MiCuenta/MisMascotasPage';
 import RegistrarMascotaPage from '../pages/MiCuenta/RegistrarMascotaPage';
 import MascotaDetallePage from '../pages/MiCuenta/MascotaDetallePage';
+import HabitacionesListPage from '../pages/Habitaciones/HabitacionesListPage';
+import HabitacionDetailPage from '../pages/Habitaciones/HabitacionDetailPage';
 
 const PrivateRoute = ({ children, requiredRol }) => {
   const { usuario, loading } = useAuth();
@@ -75,6 +77,8 @@ const AppRoutes = () => {
           <Routes>
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="mascotas/pendientes" element={<MascotasPendientesPage />} />
+            <Route path="habitaciones" element={<HabitacionesListPage />} />
+            <Route path="habitaciones/:id" element={<HabitacionDetailPage />} />
           </Routes>
         </PrivateRoute>
       } />

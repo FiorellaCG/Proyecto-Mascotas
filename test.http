@@ -1,0 +1,220 @@
+### Variables
+@baseUrl = http://localhost:8000/api
+@sessionId = 
+
+### =====================
+### AUTENTICACIÓN (Módulo 1)
+### =====================
+
+### RF-01: Login
+POST {{baseUrl}}/auth/login/
+Content-Type: application/json
+
+{
+  "correo": "admin@patitos.com",
+  "contrasena": "admin123"
+}
+
+### RF-02: Obtener usuario actual (Me)
+GET {{baseUrl}}/auth/me/
+Cookie: sessionid={{sessionId}}
+
+### RF-02: Logout
+POST {{baseUrl}}/auth/logout/
+Cookie: sessionid={{sessionId}}
+
+### =====================
+### MASCOTAS (Módulo 3)
+### =====================
+
+### RF-10, RF-11: Registrar mascota con cuidados especiales
+POST {{baseUrl}}/mascotas/registrar/
+Content-Type: application/json
+Cookie: sessionid={{sessionId}}
+
+{
+  "nombre": "Firulais",
+  "especie": "Perro",
+  "raza": "Golden Retriever",
+  "fecha_nacimiento": "2020-05-15",
+  "nivel_asistencia_id": 1,
+  "observaciones": "Muy activo, le encanta correr",
+  "cuidados": [
+    {
+      "tipo_cuidado_id": 1,
+      "descripcion": "Alérgico al pollo"
+    },
+    {
+      "tipo_cuidado_id": 2,
+      "descripcion": "Dieta especial sin lácteos"
+    }
+  ]
+}
+
+### RF-13: Listar mis mascotas
+GET {{baseUrl}}/mascotas/mis-mascotas/
+Cookie: sessionid={{sessionId}}
+
+### RF-13: Detalle de mascota
+GET {{baseUrl}}/mascotas/1/
+Cookie: sessionid={{sessionId}}
+
+### RF-14: Ver mascotas pendientes de aprobación (Admin)
+GET {{baseUrl}}/mascotas/pendientes/
+Cookie: sessionid={{sessionId}}
+
+### RF-14: Aprobar mascota
+PATCH {{baseUrl}}/mascotas/1/aprobar/
+Content-Type: application/json
+Cookie: sessionid={{sessionId}}
+
+{
+  "aprobar": true
+}
+
+### RF-16: Asignar especialista a mascota
+PATCH {{baseUrl}}/mascotas/1/asignar-especialista/
+Content-Type: application/json
+Cookie: sessionid={{sessionId}}
+
+{
+  "especialista_id": 1
+}
+
+### RF-15: Listar todas las mascotas con filtros (Admin)
+GET {{baseUrl}}/mascotas/todas/?aprobada=true&especie=Perro
+Cookie: sessionid={{sessionId}}
+
+### RF-10: Obtener niveles de asistencia disponibles
+GET {{baseUrl}}/mascotas/niveles-asistencia/
+
+### RF-11: Obtener tipos de cuidado especial
+GET {{baseUrl}}/mascotas/tipos-cuidado/
+
+### =====================
+### HABITACIONES (Módulo 4)
+### =====================
+
+### RF-24: Obtener tipos de habitación
+GET {{baseUrl}}/habitaciones/tipos/
+
+### RF-24: Obtener estados de habitación
+GET {{baseUrl}}/habitaciones/estados/
+
+### RF-19: Listar todas las habitaciones (Admin)
+GET {{baseUrl}}/habitaciones/
+Cookie: sessionid={{sessionId}}
+
+### RF-19: Filtrar habitaciones por estado (Admin)
+GET {{baseUrl}}/habitaciones/?estado_id=1
+Cookie: sessionid={{sessionId}}
+
+### RF-20: Obtener detalle de una habitación
+GET {{baseUrl}}/habitaciones/1/
+Cookie: sessionid={{sessionId}}
+
+### RF-20: Cambiar estado de habitación (Admin)
+PATCH {{baseUrl}}/habitaciones/1/
+Content-Type: application/json
+Cookie: sessionid={{sessionId}}
+
+{
+  "estado_habitacion": 2
+}
+
+### RF-21: Registrar limpieza
+POST {{baseUrl}}/habitaciones/1/limpiezas/
+Content-Type: application/json
+Cookie: sessionid={{sessionId}}
+
+{
+  "habitacion": 1,
+  "realizada_por": 1,
+  "fecha_limpieza": "2024-04-03",
+  "hora_inicio": "08:00",
+  "hora_fin": "09:30",
+  "observaciones": "Limpieza completa, cambio de sábanas"
+}
+
+### RF-22: Listar historial de limpiezas de una habitación
+GET {{baseUrl}}/habitaciones/1/limpiezas/
+Cookie: sessionid={{sessionId}}
+
+### RF-23: Listar mantenimientos de una habitación
+GET {{baseUrl}}/habitaciones/1/mantenimientos/
+Cookie: sessionid={{sessionId}}
+
+### RF-23: Listar solo mantenimientos pendientes
+GET {{baseUrl}}/habitaciones/1/mantenimientos/?pendientes=true
+Cookie: sessionid={{sessionId}}
+
+### RF-23: Crear solicitud de mantenimiento
+POST {{baseUrl}}/habitaciones/1/mantenimientos/
+Content-Type: application/json
+Cookie: sessionid={{sessionId}}
+
+{
+  "tipo": "Reparación",
+  "descripcion": "Reparar puerta del nidador",
+  "fecha_solicitud": "2024-04-03"
+}
+
+### =====================
+### RESERVACIONES (Módulo 5)
+### =====================
+
+### RF-25: Crear reservación (Admin)
+POST {{baseUrl}}/reservaciones/
+Content-Type: application/json
+Cookie: sessionid={{sessionId}}
+
+{
+  "mascota_id": 1,
+  "habitacion_id": 1,
+  "tipo_estancia_id": 1,
+  "fecha_inicio": "2024-04-05",
+  "fecha_fin": "2024-04-07",
+  "paquetes": [1, 2]
+}
+
+### RF-28: Listar mis reservaciones (Dueño)
+GET {{baseUrl}}/reservaciones/mis-reservaciones/
+Cookie: sessionid={{sessionId}}
+
+### RF-29: Listar todas las reservaciones (Admin)
+GET {{baseUrl}}/reservaciones/
+Cookie: sessionid={{sessionId}}
+
+### RF-30: Cambiar estado de reservación
+PATCH {{baseUrl}}/reservaciones/1/
+Content-Type: application/json
+Cookie: sessionid={{sessionId}}
+
+{
+  "estado_reservacion_id": 2
+}
+
+### =====================
+### NOTAS PARA TESTING
+### =====================
+### 
+### 1. ANTES DE EJECUTAR:
+###    - Iniciar servidor Django: python manage.py runserver
+###    - Reemplazar @sessionId con ID real de sesión
+###    - Verificar que los IDs de recursos existen en BD
+###
+### 2. OBTENER SESSION ID:
+###    - Login con POST /auth/login/
+###    - Copiar "sessionid" del header Set-Cookie
+###    - Reemplazar en @sessionId arriba
+###
+### 3. INSTALAR EXTENSIÓN:
+###    - "REST Client" de Huachao Mao en VS Code
+###    - Ejecutar con botón "Send Request" sobre cada request
+###
+### 4. CÓDIGOS DE RESPUESTA ESPERADOS:
+###    - 200/201: Éxito
+###    - 400: Datos inválidos
+###    - 401: No autenticado
+###    - 403: Sin permiso
+###    - 404: Recurso no encontrado

@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import Navbar from '../../components/Navbar/Navbar';
 
 const DashboardDuenoPage = () => {
   const { usuario } = useAuth();
@@ -9,7 +8,6 @@ const DashboardDuenoPage = () => {
 
   return (
     <>
-      <Navbar />
       <div style={{ maxWidth: '800px', margin: '40px auto', padding: '0 24px' }}>
       <h1 style={{ fontSize: '28px', color: '#1A1A1A', marginBottom: '8px' }}>
         Bienvenido, {usuario?.nombre}
