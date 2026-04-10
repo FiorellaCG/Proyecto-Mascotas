@@ -52,10 +52,10 @@ class RegistrarMascotaView(APIView):
 class MascotaDetalleView(APIView):
     permission_classes = [AllowAny]
 
-    def get(self, request, mascota_id):
+    def get(self, request, pk):
         usuario, err = get_usuario_session(request)
         if err: return err
-        mascota = get_object_or_404(Mascota, pk=mascota_id, dueno_usuario_id=usuario.usuario_id)
+        mascota = get_object_or_404(Mascota, pk=pk, dueno_usuario_id=usuario.usuario_id)
         return Response(MascotaDetailSerializer(mascota).data)
 
 class MascotasPendientesView(APIView):
@@ -73,12 +73,12 @@ class MascotasPendientesView(APIView):
 class AprobarMascotaView(APIView):
     permission_classes = [AllowAny]
 
-    def patch(self, request, mascota_id):
+    def patch(self, request, pk):
         usuario, err = get_usuario_session(request)
         if err: return err
         if usuario.rol.nombre != 'Administrador':
             return Response({'detail': 'Sin permiso'}, status=403)
-        mascota = get_object_or_404(Mascota, pk=mascota_id)
+        mascota = get_object_or_404(Mascota, pk=pk)
         aprobar = request.data.get('aprobar')
         mascota.aprobada = bool(aprobar)
         mascota.aprobada_por_id = usuario.usuario_id
@@ -117,18 +117,24 @@ class TiposCuidadoView(APIView):
         return Response(TipoCuidadoSerializer(Tipocuidadoespecial.objects.all().order_by('tipo_cuidado_id'), many=True).data)
 
 class AsignarEspecialistaView(APIView):
-    def patch(self, request, pk):
+    permission_classes = [AllowAny]
+
+    def patch(self, request, mascota_id):
         usuario, err = get_usuario_session(request)
         if err: return err
         if usuario.rol.nombre != 'Administrador':
             return Response({'detail': 'Sin permiso'}, status=403)
-        mascota = get_object_or_404(Mascota, pk=pk)
+        mascota = get_object_or_404(Mascota, pk=mascota_id)
         if not mascota.aprobada:
             return Response({'detail': 'La mascota debe estar aprobada para asignar un especialista'}, status=400)
         especialista_id = request.data.get('especialista_id')
         if not especialista_id:
             return Response({'detail': 'especialista_id es requerido'}, status=400)
+        
         especialista = get_object_or_404(Especialista, pk=especialista_id)
+        if not especialista.activo:
+            return Response({'detail': 'El especialista seleccionado no está activo'}, status=400)
+            
         mascota.especialista = especialista
         mascota.save()
         return Response({
@@ -137,3 +143,21 @@ class AsignarEspecialistaView(APIView):
             'especialista_id': especialista.especialista_id,
             'especialista_nombre': f'{especialista.usuario.nombre} {especialista.usuario.apellidos}'
         })
+
+class EspecialistasActivosView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        usuario, err = get_usuario_session(request)
+        if err: return err
+        if usuario.rol.nombre != 'Administrador':
+            return Response({'detail': 'Sin permiso'}, status=403)
+        
+        especialistas = Especialista.objects.filter(activo=True).select_related('usuario')
+        data = [{
+            'especialista_id': e.especialista_id,
+            'nombre_completo': f'{e.usuario.nombre} {e.usuario.apellidos}',
+            'especialidad': e.especialidad
+        } for e in especialistas]
+        
+        return Response(data)

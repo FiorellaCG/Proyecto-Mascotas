@@ -94,46 +94,95 @@ export default function HabitacionDetailPage() {
     }
   };
 
+  const getColorStyles = (estado) => {
+    switch (estado) {
+      case 'Disponible':
+        return { bgPill: '#E8F8EF', text: '#28C76F' };
+      case 'Reservada':
+        return { bgPill: '#E8F0FF', text: '#1E90FF' };
+      case 'En mantenimiento':
+        return { bgPill: '#FFF3E0', text: '#FF9800' };
+      case 'Cerrada':
+      default:
+        return { bgPill: '#FFE8E8', text: '#FF6B6B' };
+    }
+  };
+
+  const inputStyle = {
+    border: '1px solid #DDDDDD',
+    borderRadius: '8px',
+    padding: '10px 14px',
+    fontSize: '14px',
+    width: '100%',
+    outline: 'none',
+    boxSizing: 'border-box'
+  };
+
   if (loading) return <div className="text-center py-8">Cargando...</div>;
   if (error) return <div className="text-red-600 py-8">Error: {error}</div>;
   if (!habitacion) return <div className="text-center py-8">Habitación no encontrada</div>;
 
+  const badgeStyle = getColorStyles(habitacion.estado_habitacion_info.nombre);
+
   return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Habitación {habitacion.numero}</h1>
+    <div style={{ maxWidth: '1000px', margin: '40px auto', padding: '0 24px' }}>
+      
+      {/* Encabezado */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px', flexWrap: 'wrap', gap: '16px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#1A1A1A', margin: 0 }}>
+            Habitación {habitacion.numero}
+          </h1>
+          <span style={{
+            background: badgeStyle.bgPill,
+            color: badgeStyle.text,
+            padding: '6px 14px',
+            borderRadius: '20px',
+            fontSize: '13px',
+            fontWeight: 600
+          }}>
+            {habitacion.estado_habitacion_info.nombre}
+          </span>
+        </div>
         <button
           onClick={() => navigate('/habitaciones')}
-          className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+          style={{
+            border: '1px solid #DDDDDD',
+            background: 'transparent',
+            borderRadius: '8px',
+            padding: '8px 16px',
+            fontWeight: 600,
+            color: '#555555',
+            cursor: 'pointer'
+          }}
         >
-          Volver
+          ← Volver
         </button>
       </div>
 
       {/* Información General */}
-      <div className="bg-blue-50 p-6 rounded mb-6">
-        <div className="grid grid-cols-2 gap-4">
+      <div style={{ background: '#F8F8F8', borderRadius: '12px', padding: '24px', border: '1px solid #EEEEEE', marginBottom: '32px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
           <div>
-            <p><strong>Tipo:</strong> {habitacion.tipo_habitacion_info.nombre}</p>
-            <p><strong>Descripción:</strong> {habitacion.descripcion || 'N/A'}</p>
-            <p><strong>Capacidad:</strong> {habitacion.capacidad} mascotas</p>
+            <p style={{ margin: '0 0 8px 0' }}><span style={{ color: '#555555' }}>Tipo:</span> <span style={{ color: '#1A1A1A', fontWeight: 500 }}>{habitacion.tipo_habitacion_info.nombre}</span></p>
+            <p style={{ margin: '0 0 8px 0' }}><span style={{ color: '#555555' }}>Descripción:</span> <span style={{ color: '#1A1A1A', fontWeight: 500 }}>{habitacion.descripcion || 'N/A'}</span></p>
+            <p style={{ margin: '0 0 8px 0' }}><span style={{ color: '#555555' }}>Capacidad:</span> <span style={{ color: '#1A1A1A', fontWeight: 500 }}>{habitacion.capacidad} mascotas</span></p>
           </div>
           <div>
-            <p><strong>Estado:</strong> {habitacion.estado_habitacion_info.nombre}</p>
-            <p><strong>Activa:</strong> {habitacion.activa ? '✅ Sí' : '❌ No'}</p>
+            <p style={{ margin: '0 0 8px 0' }}><span style={{ color: '#555555' }}>Activa:</span> <span style={{ color: '#1A1A1A', fontWeight: 500 }}>{habitacion.activa ? '✅ Sí' : '❌ No'}</span></p>
             {habitacion.url_camara && (
-              <p><strong>Cámara:</strong> <a href={habitacion.url_camara} className="text-blue-600">Ver</a></p>
+              <p style={{ margin: '0 0 8px 0' }}><span style={{ color: '#555555' }}>Cámara:</span> <a href={habitacion.url_camara} style={{ color: '#1E90FF', fontWeight: 500, textDecoration: 'none' }}>Ver enlace</a></p>
             )}
           </div>
         </div>
 
         {/* Cambiar Estado */}
-        <div className="mt-4">
-          <label className="block text-sm font-medium mb-2">Cambiar estado:</label>
+        <div style={{ marginTop: '24px', borderTop: '1px solid #DDDDDD', paddingTop: '20px' }}>
+          <label style={{ display: 'block', fontWeight: 600, color: '#1A1A1A', marginBottom: '8px' }}>Cambiar estado:</label>
           <select
             onChange={(e) => handleCambiarEstado(parseInt(e.target.value))}
             value={habitacion.estado_habitacion}
-            className="border rounded px-3 py-2"
+            style={{ border: '1px solid #F5A800', borderRadius: '8px', padding: '8px 12px', outline: 'none', backgroundColor: '#FFFFFF', minWidth: '200px' }}
           >
             {estados.map((est) => (
               <option key={est.estado_habitacion_id} value={est.estado_habitacion_id}>
@@ -145,89 +194,136 @@ export default function HabitacionDetailPage() {
       </div>
 
       {/* Pestañas */}
-      <div className="flex border-b mb-6">
+      <div style={{ display: 'flex', borderBottom: '1px solid #EEEEEE', marginBottom: '24px', gap: '24px' }}>
         <button
           onClick={() => setActiveTab('detalle')}
-          className={`px-4 py-2 ${activeTab === 'detalle' ? 'border-b-2 border-blue-500 font-bold' : ''}`}
+          style={{
+            background: 'none', border: 'none', padding: '12px 0', fontSize: '15px', cursor: 'pointer',
+            borderBottom: activeTab === 'detalle' ? '2px solid #F5A800' : '2px solid transparent',
+            fontWeight: activeTab === 'detalle' ? 600 : 400,
+            color: activeTab === 'detalle' ? '#1A1A1A' : '#555555'
+          }}
         >
           Detalle
         </button>
         <button
           onClick={() => setActiveTab('limpiezas')}
-          className={`px-4 py-2 ${activeTab === 'limpiezas' ? 'border-b-2 border-blue-500 font-bold' : ''}`}
+          style={{
+            background: 'none', border: 'none', padding: '12px 0', fontSize: '15px', cursor: 'pointer',
+            borderBottom: activeTab === 'limpiezas' ? '2px solid #F5A800' : '2px solid transparent',
+            fontWeight: activeTab === 'limpiezas' ? 600 : 400,
+            color: activeTab === 'limpiezas' ? '#1A1A1A' : '#555555'
+          }}
         >
           Limpiezas ({limpiezas.length})
         </button>
         <button
           onClick={() => setActiveTab('mantenimientos')}
-          className={`px-4 py-2 ${activeTab === 'mantenimientos' ? 'border-b-2 border-blue-500 font-bold' : ''}`}
+          style={{
+            background: 'none', border: 'none', padding: '12px 0', fontSize: '15px', cursor: 'pointer',
+            borderBottom: activeTab === 'mantenimientos' ? '2px solid #F5A800' : '2px solid transparent',
+            fontWeight: activeTab === 'mantenimientos' ? 600 : 400,
+            color: activeTab === 'mantenimientos' ? '#1A1A1A' : '#555555'
+          }}
         >
           Mantenimientos ({mantenimientos.length})
         </button>
       </div>
 
       {/* Contenido de pestañas */}
+      {activeTab === 'detalle' && (
+         <div style={{ color: '#555555' }}>
+            Selecciona Limpiezas o Mantenimientos para ver más información operativa.
+         </div>
+      )}
+
       {activeTab === 'limpiezas' && (
         <div>
           <button
             onClick={() => setShowLimpiezaForm(!showLimpiezaForm)}
-            className="mb-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+            style={{
+              background: showLimpiezaForm ? '#EEEEEE' : '#F5A800',
+              color: '#1A1A1A',
+              fontWeight: 600,
+              borderRadius: '8px',
+              padding: '10px 20px',
+              border: 'none',
+              marginBottom: '24px',
+              cursor: 'pointer'
+            }}
           >
             {showLimpiezaForm ? 'Cancelar' : 'Registrar Limpieza'}
           </button>
 
           {showLimpiezaForm && (
-            <form onSubmit={handleGuardarLimpieza} className="bg-gray-50 p-4 rounded mb-4">
-              <div className="grid grid-cols-2 gap-4">
+            <form onSubmit={handleGuardarLimpieza} style={{ background: '#F8F8F8', borderRadius: '12px', padding: '20px', border: '1px solid #EEEEEE', marginBottom: '24px' }}>
+              <style>
+                {`
+                  .form-inputs input:focus, .form-inputs textarea:focus {
+                    border-color: #F5A800 !important;
+                  }
+                `}
+              </style>
+              <div className="form-inputs" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginBottom: '16px' }}>
                 <input
                   type="number"
                   name="realizada_por"
                   placeholder="ID persona limpieza"
                   required
-                  className="border rounded px-3 py-2"
+                  style={inputStyle}
                 />
                 <input
                   type="date"
                   name="fecha_limpieza"
                   required
-                  className="border rounded px-3 py-2"
+                  style={inputStyle}
                 />
                 <input
                   type="time"
                   name="hora_inicio"
-                  className="border rounded px-3 py-2"
+                  style={inputStyle}
                 />
                 <input
                   type="time"
                   name="hora_fin"
-                  className="border rounded px-3 py-2"
+                  style={inputStyle}
                 />
               </div>
-              <textarea
-                name="observaciones"
-                placeholder="Observaciones"
-                className="w-full border rounded px-3 py-2 mt-4"
-                rows="3"
-              />
+              <div className="form-inputs">
+                <textarea
+                  name="observaciones"
+                  placeholder="Observaciones"
+                  style={{ ...inputStyle, minHeight: '80px', resize: 'vertical' }}
+                />
+              </div>
               <button
                 type="submit"
-                className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                style={{
+                  background: '#F5A800',
+                  color: '#1A1A1A',
+                  fontWeight: 600,
+                  borderRadius: '8px',
+                  padding: '10px 24px',
+                  border: 'none',
+                  marginTop: '16px',
+                  cursor: 'pointer'
+                }}
               >
                 Guardar Limpieza
               </button>
             </form>
           )}
 
-          <div className="space-y-3">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {limpiezas.length === 0 ? (
-              <p className="text-gray-500">No hay registros de limpieza</p>
+              <p style={{ color: '#555555' }}>No hay registros de limpieza</p>
             ) : (
               limpiezas.map((limpieza) => (
-                <div key={limpieza.limpieza_id} className="border p-4 rounded bg-gray-50">
-                  <p><strong>Fecha:</strong> {limpieza.fecha_limpieza}</p>
-                  <p><strong>Realizada por:</strong> {limpieza.realizada_por_nombre}</p>
-                  <p><strong>Hora:</strong> {limpieza.hora_inicio} - {limpieza.hora_fin}</p>
-                  {limpieza.observaciones && <p><strong>Observaciones:</strong> {limpieza.observaciones}</p>}
+                <div key={limpieza.limpieza_id} style={{ background: '#FFFFFF', border: '1px solid #EEEEEE', borderRadius: '10px', padding: '16px' }}>
+                  <p style={{ margin: '0 0 6px 0', color: '#555555' }}><strong>Fecha:</strong> <span style={{ color: '#1A1A1A' }}>{limpieza.fecha_limpieza}</span></p>
+                  <p style={{ margin: '0 0 6px 0', color: '#555555' }}><strong>Realizada por:</strong> <span style={{ color: '#1A1A1A' }}>{limpieza.realizada_por_nombre}</span></p>
+                  <p style={{ margin: '0 0 6px 0', color: '#555555' }}><strong>Hora:</strong> <span style={{ color: '#1A1A1A' }}>{limpieza.hora_inicio} - {limpieza.hora_fin}</span></p>
+                  {limpieza.observaciones && <p style={{ margin: 0, color: '#555555' }}><strong>Observaciones:</strong> <span style={{ color: '#1A1A1A' }}>{limpieza.observaciones}</span></p>}
                 </div>
               ))
             )}
@@ -239,53 +335,90 @@ export default function HabitacionDetailPage() {
         <div>
           <button
             onClick={() => setShowMantenimientoForm(!showMantenimientoForm)}
-            className="mb-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+            style={{
+              background: showMantenimientoForm ? '#EEEEEE' : '#F5A800',
+              color: '#1A1A1A',
+              fontWeight: 600,
+              borderRadius: '8px',
+              padding: '10px 20px',
+              border: 'none',
+              marginBottom: '24px',
+              cursor: 'pointer'
+            }}
           >
             {showMantenimientoForm ? 'Cancelar' : 'Crear Solicitud'}
           </button>
 
           {showMantenimientoForm && (
-            <form onSubmit={handleGuardarMantenimiento} className="bg-gray-50 p-4 rounded mb-4">
-              <input
-                type="text"
-                name="tipo"
-                placeholder="Tipo de mantenimiento"
-                required
-                className="w-full border rounded px-3 py-2 mb-3"
-              />
-              <textarea
-                name="descripcion"
-                placeholder="Descripción del problema"
-                required
-                className="w-full border rounded px-3 py-2 mb-3"
-                rows="3"
-              />
-              <input
-                type="date"
-                name="fecha_solicitud"
-                required
-                className="w-full border rounded px-3 py-2 mb-3"
-              />
+            <form onSubmit={handleGuardarMantenimiento} style={{ background: '#F8F8F8', borderRadius: '12px', padding: '20px', border: '1px solid #EEEEEE', marginBottom: '24px' }}>
+              <style>
+                {`
+                  .form-inputs input:focus, .form-inputs textarea:focus {
+                    border-color: #F5A800 !important;
+                  }
+                `}
+              </style>
+              <div className="form-inputs" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <input
+                  type="text"
+                  name="tipo"
+                  placeholder="Tipo de mantenimiento"
+                  required
+                  style={inputStyle}
+                />
+                <textarea
+                  name="descripcion"
+                  placeholder="Descripción del problema"
+                  required
+                  style={{ ...inputStyle, minHeight: '80px', resize: 'vertical' }}
+                />
+                <input
+                  type="date"
+                  name="fecha_solicitud"
+                  required
+                  style={inputStyle}
+                />
+              </div>
               <button
                 type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                style={{
+                  background: '#F5A800',
+                  color: '#1A1A1A',
+                  fontWeight: 600,
+                  borderRadius: '8px',
+                  padding: '10px 24px',
+                  border: 'none',
+                  marginTop: '16px',
+                  cursor: 'pointer'
+                }}
               >
                 Crear Solicitud
               </button>
             </form>
           )}
 
-          <div className="space-y-3">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {mantenimientos.length === 0 ? (
-              <p className="text-gray-500">No hay solicitudes de mantenimiento</p>
+              <p style={{ color: '#555555' }}>No hay solicitudes de mantenimiento</p>
             ) : (
               mantenimientos.map((mant) => (
-                <div key={mant.mantenimiento_id} className="border p-4 rounded bg-gray-50">
-                  <p><strong>Tipo:</strong> {mant.tipo}</p>
-                  <p><strong>Descripción:</strong> {mant.descripcion}</p>
-                  <p><strong>Solicitado:</strong> {mant.fecha_solicitud}</p>
-                  <p><strong>Estado:</strong> {mant.completado ? '✅ Completado' : '⏳ Pendiente'}</p>
-                  {mant.realizado_por_nombre && <p><strong>Realizado por:</strong> {mant.realizado_por_nombre}</p>}
+                <div key={mant.mantenimiento_id} style={{ background: '#FFFFFF', border: '1px solid #EEEEEE', borderRadius: '10px', padding: '16px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+                    <p style={{ margin: 0, fontWeight: 700, color: '#1A1A1A', fontSize: '16px' }}>{mant.tipo}</p>
+                    <span style={{
+                      background: mant.completado ? '#E8F8EF' : '#FFF3E0',
+                      color: mant.completado ? '#28C76F' : '#FF9800',
+                      padding: '4px 12px',
+                      borderRadius: '20px',
+                      fontSize: '12px',
+                      fontWeight: 600
+                    }}>
+                      {mant.completado ? '✅ Completado' : '⏳ Pendiente'}
+                    </span>
+                  </div>
+                  <p style={{ margin: '0 0 8px 0', color: '#1A1A1A' }}>{mant.descripcion}</p>
+                  <p style={{ margin: '0 0 4px 0', color: '#555555', fontSize: '13px' }}><strong>Solicitado:</strong> {mant.fecha_solicitud}</p>
+                  {mant.realizado_por_nombre && <p style={{ margin: 0, color: '#555555', fontSize: '13px' }}><strong>Realizado por:</strong> {mant.realizado_por_nombre}</p>}
                 </div>
               ))
             )}

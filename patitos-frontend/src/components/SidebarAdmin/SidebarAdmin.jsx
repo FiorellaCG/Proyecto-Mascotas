@@ -13,7 +13,8 @@ export default function SidebarAdmin() {
 
   const menuItems = [
     { label: 'Dashboard', path: '/admin/dashboard', icon: '📊' },
-    { label: 'Mascotas Pendientes', path: '/admin/mascotas/pendientes', icon: '🐾' },
+    { label: 'Mascotas Pendientes', path: '/admin/mascotas/pendientes', icon: '📋' },
+    { label: 'Todas las Mascotas', path: '/admin/mascotas/todas', icon: '🐾' },
     { label: 'Habitaciones', path: '/admin/habitaciones', icon: '🏠' },
   ];
 

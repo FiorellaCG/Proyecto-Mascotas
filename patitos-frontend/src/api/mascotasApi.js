@@ -8,3 +8,5 @@ export const getTiposCuidado       = ()            => api.get('/api/mascotas/tip
 export const getMascotasPendientes = ()            => api.get('/api/mascotas/pendientes/');
 export const getTodasMascotas      = (params)      => api.get('/api/mascotas/todas/', { params });
 export const aprobarMascota        = (id, aprobar) => api.patch(`/api/mascotas/${id}/aprobar/`, { aprobar });
+export const asignarEspecialista   = (id, data)    => api.patch(`/api/mascotas/${id}/asignar-especialista/`, data);
+export const getEspecialistasActivos = ()          => api.get('/api/mascotas/especialistas-activos/');

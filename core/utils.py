@@ -11,7 +11,7 @@ def get_usuario_session(request):
         return None
     
     try:
-        return Usuario.objects.get(usuario_id=usuario_id)
+        return Usuario.objects.select_related('rol').get(usuario_id=usuario_id)
     except Usuario.DoesNotExist:
         return None
 
@@ -22,7 +22,7 @@ def is_admin(usuario):
     """
     if not usuario:
         return False
-    return usuario.rol == 'Administrador'
+    return usuario.rol.nombre == 'Administrador'
 
 
 def is_due(usuario):
@@ -31,7 +31,7 @@ def is_due(usuario):
     """
     if not usuario:
         return False
-    return usuario.rol == 'Dueño'
+    return usuario.rol.nombre == 'Dueño'
 
 
 def is_especialista(usuario):
@@ -40,7 +40,7 @@ def is_especialista(usuario):
     """
     if not usuario:
         return False
-    return usuario.rol == 'Especialista'
+    return usuario.rol.nombre == 'Especialista'
 
 
 def is_personal_limpieza(usuario):
@@ -49,4 +49,4 @@ def is_personal_limpieza(usuario):
     """
     if not usuario:
         return False
-    return usuario.rol == 'Personal limpieza'
+    return usuario.rol.nombre == 'Personal limpieza'

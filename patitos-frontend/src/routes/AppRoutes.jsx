@@ -4,6 +4,7 @@ import LoginPage from '../pages/Login/LoginPage';
 import RegistroPage from '../pages/Auth/RegistroPage';
 import HomePage from '../pages/Home/HomePage';
 import MascotasPendientesPage from '../pages/Admin/MascotasPendientesPage';
+import TodasMascotasPage from '../pages/Admin/TodasMascotasPage';
 import DashboardDuenoPage from '../pages/MiCuenta/DashboardDuenoPage';
 import MisMascotasPage from '../pages/MiCuenta/MisMascotasPage';
 import RegistrarMascotaPage from '../pages/MiCuenta/RegistrarMascotaPage';
@@ -77,6 +78,7 @@ const AppRoutes = () => {
           <Routes>
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="mascotas/pendientes" element={<MascotasPendientesPage />} />
+            <Route path="mascotas/todas" element={<TodasMascotasPage />} />
             <Route path="habitaciones" element={<HabitacionesListPage />} />
             <Route path="habitaciones/:id" element={<HabitacionDetailPage />} />
           </Routes>

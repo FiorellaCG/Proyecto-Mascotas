@@ -1,4 +1,5 @@
 from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from django.db.models import Q
@@ -18,6 +19,7 @@ from core.utils import get_usuario_session, is_admin
 
 # RF-19: Listar todas las habitaciones (Admin only, con filtro por estado)
 class ListAllHabitacionesView(APIView):
+    permission_classes = [AllowAny]
     def get(self, request):
         # Validar que sea administrador
         usuario = get_usuario_session(request)
@@ -43,6 +45,7 @@ class ListAllHabitacionesView(APIView):
 
 # RF-20: Obtener detalle de habitación y cambiar estado
 class HabitacionDetailView(APIView):
+    permission_classes = [AllowAny]
     def get(self, request, pk):
         """Obtener detalle de una habitación"""
         try:
@@ -92,6 +95,7 @@ class HabitacionDetailView(APIView):
 
 # RF-21: Registrar limpieza de habitación
 class RegistrarLimpiezaView(APIView):
+    permission_classes = [AllowAny]
     def post(self, request, habitacion_id):
         """Registrar una limpieza"""
         usuario = get_usuario_session(request)
@@ -125,6 +129,7 @@ class RegistrarLimpiezaView(APIView):
 
 # RF-22: Listar limpiezas de una habitación
 class ListLimpiezasView(APIView):
+    permission_classes = [AllowAny]
     def get(self, request, habitacion_id):
         """Obtener historial de limpiezas de una habitación"""
         try:
@@ -148,6 +153,7 @@ class ListLimpiezasView(APIView):
 
 # RF-23: Listar mantenimientos pendientes de una habitación
 class ListMantenimientosView(APIView):
+    permission_classes = [AllowAny]
     def get(self, request, habitacion_id):
         """Obtener mantenimientos (pendientes o todos) de una habitación"""
         try:
@@ -204,6 +210,7 @@ class ListMantenimientosView(APIView):
 
 # RF-24: Listar tipos de habitación
 class TiposHabitacionView(APIView):
+    permission_classes = [AllowAny]
     def get(self, request):
         """Obtener todos los tipos de habitación"""
         tipos = Tipohabitacion.objects.all()
@@ -213,6 +220,7 @@ class TiposHabitacionView(APIView):
 
 # Vista auxiliar: Obtener todos los estados
 class EstadosHabitacionView(APIView):
+    permission_classes = [AllowAny]
     def get(self, request):
         """Obtener todos los estados de habitación"""
         estados = Estadohabitacion.objects.all()

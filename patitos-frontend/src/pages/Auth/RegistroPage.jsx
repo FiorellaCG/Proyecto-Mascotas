@@ -151,6 +151,14 @@ const RegistroPage = () => {
               input::placeholder {
                 color: #AAAAAA;
               }
+              input:-webkit-autofill,
+              input:-webkit-autofill:hover, 
+              input:-webkit-autofill:focus, 
+              input:-webkit-autofill:active {
+                -webkit-box-shadow: 0 0 0 30px white inset !important;
+                -webkit-text-fill-color: #1A1A1A !important;
+                transition: background-color 5000s ease-in-out 0s;
+              }
             `}
           </style>
 

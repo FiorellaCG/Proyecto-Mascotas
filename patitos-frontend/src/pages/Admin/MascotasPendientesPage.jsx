@@ -64,7 +64,7 @@ const MascotasPendientesPage = () => {
       
       <style>{`@keyframes spin { 100% { transform: rotate(360deg); } }`}</style>
       
-      <h1 style={{ fontSize: '28px', color: '#1A1A1A', marginBottom: '6px' }}>Mascotas pendientes de aprobación</h1>
+      <h1 style={{ fontSize: '26px', fontWeight: 700, color: '#1A1A1A', marginBottom: '6px' }}>Mascotas pendientes de aprobación</h1>
       <p style={{ color: '#555555', fontSize: '15px', marginBottom: '32px' }}>
         {mascotas.length} mascotas esperando revisión
       </p>
