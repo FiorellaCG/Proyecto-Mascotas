@@ -103,27 +103,10 @@ export default function TodasMascotasPage() {
     setProcessing(true);
     setModalError('');
     try {
-      const res = await asignarEspecialista(selectedMascota.mascota_id, {
+      await asignarEspecialista(selectedMascota.mascota_id, {
         especialista_id: selectedEspecialistaId
       });
-      // Actualizar tabla local
-      setMascotas(prev => prev.map(m => {
-        if (m.mascota_id === selectedMascota.mascota_id) {
-          return {
-            ...m,
-            especialista: {
-              ...m.especialista,
-              usuario: {
-                nombre: res.data.especialista_nombre.split(' ')[0], // fallback
-                apellidos: res.data.especialista_nombre.split(' ').slice(1).join(' ')
-              }
-            } // To support full name properly we could just refetch or tweak as needed, here we'll just reconstruct a valid nested obj structure to show the user temporarily or trigger refetch
-          };
-        }
-        return m;
-      }));
-      // Mejor recargamos la data directamente para que todo cuadre perfecto con el serializer
-      fetchMascotas();
+      await fetchMascotas();
       showToast('✓ Especialista asignado con éxito', 'success');
       closeModal();
     } catch (error) {
@@ -233,12 +216,11 @@ export default function TodasMascotasPage() {
                   </td>
                   <td style={{ padding: '14px 16px' }}>{renderEstadoBadge(m.aprobada)}</td>
                   <td style={{ padding: '14px 16px', color: '#555555' }}>
-                    {m.especialista_detalles 
-                      ? `${m.especialista_detalles.usuario__nombre} ${m.especialista_detalles.usuario__apellidos}`
-                      : m.especialista?.usuario
-                        ? `${m.especialista.usuario.nombre} ${m.especialista.usuario.apellidos}`
-                        : <span style={{ fontStyle: 'italic', color: '#999999' }}>Sin asignar</span>
-                    }
+                    {m.especialista_nombre ? (
+                      m.especialista_nombre
+                    ) : (
+                      <span style={{ fontStyle: 'italic', color: '#999999' }}>Sin asignar</span>
+                    )}
                   </td>
                   <td style={{ padding: '14px 16px', textAlign: 'center' }}>
                     {m.aprobada === true ? (

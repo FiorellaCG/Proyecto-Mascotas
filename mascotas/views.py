@@ -95,7 +95,7 @@ class TodasMascotasView(APIView):
         if err: return err
         if usuario.rol.nombre != 'Administrador':
             return Response({'detail': 'Sin permiso'}, status=403)
-        qs = Mascota.objects.filter(activa=True).select_related('nivel_asistencia', 'dueno_usuario')
+        qs = Mascota.objects.filter(activa=True).select_related('nivel_asistencia', 'dueno_usuario', 'especialista__usuario')
         aprobada_param = request.query_params.get('aprobada')
         if aprobada_param == 'true':   qs = qs.filter(aprobada=True)
         elif aprobada_param == 'false': qs = qs.filter(aprobada=False)

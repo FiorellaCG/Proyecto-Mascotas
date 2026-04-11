@@ -23,10 +23,20 @@ class CuidadoEspecialSerializer(serializers.ModelSerializer):
 
 class MascotaListSerializer(serializers.ModelSerializer):
     nivel_asistencia = NivelAsistenciaSerializer(read_only=True)
+    especialista_nombre = serializers.SerializerMethodField()
 
     class Meta:
         model = Mascota
-        fields = ['mascota_id', 'nombre', 'especie', 'raza', 'fecha_nacimiento', 'nivel_asistencia', 'aprobada', 'activa', 'fecha_ingreso_sys']
+        fields = [
+            'mascota_id', 'nombre', 'especie', 'raza', 'fecha_nacimiento',
+            'nivel_asistencia', 'aprobada', 'activa', 'fecha_ingreso_sys',
+            'especialista_nombre'
+        ]
+
+    def get_especialista_nombre(self, obj):
+        if obj.especialista and obj.especialista.usuario:
+            return f"{obj.especialista.usuario.nombre} {obj.especialista.usuario.apellidos}"
+        return None
 
 class MascotaDetailSerializer(MascotaListSerializer):
     cuidados_especiales = CuidadoEspecialSerializer(many=True, read_only=True, source='cuidados_especiales.all')
