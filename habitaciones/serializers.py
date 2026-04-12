@@ -27,15 +27,22 @@ class UsuarioBasicSerializer(serializers.ModelSerializer):
 
 class LimpiezahabitacionSerializer(serializers.ModelSerializer):
     realizada_por_nombre = serializers.SerializerMethodField()
+    habitacion_numero = serializers.SerializerMethodField()
 
     def get_realizada_por_nombre(self, obj):
         if obj.realizada_por:
             return f"{obj.realizada_por.nombre} {obj.realizada_por.apellidos}"
         return None
 
+    def get_habitacion_numero(self, obj):
+        if obj.habitacion:
+            return obj.habitacion.numero
+        return None
+
     class Meta:
         model = Limpiezahabitacion
-        fields = ['limpieza_id', 'fecha_limpieza', 'hora_inicio', 'hora_fin',
+        fields = ['limpieza_id', 'habitacion', 'habitacion_numero',
+                  'fecha_limpieza', 'hora_inicio', 'hora_fin',
                   'observaciones', 'realizada_por', 'realizada_por_nombre']
 
 

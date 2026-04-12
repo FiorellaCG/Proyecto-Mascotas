@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.utils.timezone import now
 
-from .models import Reservacion, Tipoestancia, Estadoreservacion, Paqueteadicional
+from .models import Reservacion, Tipoestancia, Estadoreservacion, Paqueteadicional, Reservacionpaquete
 from mascotas.models import Mascota
 from habitaciones.models import Habitacion
 from core.utils import get_usuario_session, is_admin, is_due
@@ -156,3 +156,24 @@ class HabitacionesDisponiblesView(APIView):
 
         from habitaciones.serializers import HabitacionListSerializer
         return Response(HabitacionListSerializer(queryset, many=True).data)
+
+class EliminarReservacionView(APIView):
+    permission_classes = [AllowAny]
+
+    def delete(self, request, reservacion_id):
+        usuario = get_usuario_session(request)
+        if not usuario or not is_admin(usuario):
+            return Response({'error': 'Sin permiso'}, status=403)
+        try:
+            reservacion = Reservacion.objects.get(pk=reservacion_id)
+        except Reservacion.DoesNotExist:
+            return Response({'error': 'No encontrada'}, status=404)
+
+        if reservacion.estado_reservacion.nombre != 'Finalizada':
+            return Response({'error': 'Solo se pueden eliminar reservaciones finalizadas'}, status=400)
+        # Eliminar registros hijos primero
+        Reservacionpaquete.objects.filter(reservacion_id=reservacion_id).delete()
+
+        # Luego eliminar la reservación
+        reservacion.delete()
+        return Response({'detail': 'Reservación eliminada'}, status=200)

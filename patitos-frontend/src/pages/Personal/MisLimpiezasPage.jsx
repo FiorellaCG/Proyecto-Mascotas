@@ -104,7 +104,7 @@ export default function MisLimpiezasPage() {
                   ) : (
                     limpiezas.map((limp, idx) => (
                       <tr key={limp.limpieza_id || idx} style={{ borderBottom: '1px solid #F0F0F0' }}>
-                        <td style={{ padding: '12px 16px', color: '#1A1A1A', fontWeight: 500 }}>H-{limp.habitacion}</td>
+                        <td style={{ padding: '12px 16px', color: '#1A1A1A', fontWeight: 500 }}>{limp.habitacion_numero || '—'}</td>
                         <td style={{ padding: '12px 16px', color: '#555555' }}>{limp.fecha_limpieza}</td>
                         <td style={{ padding: '12px 16px', color: '#555555' }}>{limp.hora_inicio || '--:--'}</td>
                         <td style={{ padding: '12px 16px', color: '#555555' }}>{limp.hora_fin || '--:--'}</td>

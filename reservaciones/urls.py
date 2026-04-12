@@ -3,6 +3,7 @@ from .views import (
     MisReservacionesView, CrearReservacionView,
     TodasReservacionesView, CambiarEstadoReservacionView,
     TiposEstanciaView, PaquetesAdicionalesView, HabitacionesDisponiblesView,
+    EliminarReservacionView
 )
 
 urlpatterns = [
@@ -12,6 +13,7 @@ urlpatterns = [
     # Admin
     path('todas/',                          TodasReservacionesView.as_view()),
     path('<int:reservacion_id>/estado/',    CambiarEstadoReservacionView.as_view()),
+    path('<int:reservacion_id>/eliminar/',  EliminarReservacionView.as_view()),
     # Catálogos
     path('tipos-estancia/',                 TiposEstanciaView.as_view()),
     path('paquetes/',                       PaquetesAdicionalesView.as_view()),

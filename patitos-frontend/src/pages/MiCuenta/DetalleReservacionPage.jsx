@@ -49,7 +49,7 @@ export default function DetalleReservacionPage() {
   return (
     <div style={{ maxWidth: '800px', margin: '40px auto', padding: '0 24px', fontFamily: '"Inter", sans-serif' }}>
       <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#1A1A1A', marginBottom: '24px' }}>
-        Detalle de la Reservación #{reservacion.reservacion_id}
+        Detalle de la Reservación
       </h1>
 
       <div style={{ background: '#FFFFFF', border: '1px solid #EEEEEE', borderRadius: '12px', padding: '24px' }}>

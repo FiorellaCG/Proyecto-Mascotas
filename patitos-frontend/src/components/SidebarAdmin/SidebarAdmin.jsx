@@ -12,7 +12,6 @@ export default function SidebarAdmin() {
   }
 
   const menuItems = [
-    { label: 'Dashboard', path: '/admin/dashboard', icon: '📊' },
     { label: 'Mascotas Pendientes', path: '/admin/mascotas/pendientes', icon: '📋' },
     { label: 'Todas las Mascotas', path: '/admin/mascotas/todas', icon: '🐾' },
     { label: 'Habitaciones', path: '/admin/habitaciones', icon: '🏠' },
@@ -23,17 +22,13 @@ export default function SidebarAdmin() {
   return (
     <div
       style={{
-        position: 'fixed',
-        left: 0,
-        top: 80, // Debajo del navbar
-        height: 'calc(100vh - 80px)',
-        width: isCollapsed ? '80px' : '250px',
+        width: '260px',
+        minHeight: '100vh',
         background: '#1A1A1A',
-        color: '#FFFFFF',
-        transition: 'width 0.3s ease',
-        zIndex: 100,
-        overflowY: 'auto',
-        padding: isCollapsed ? '10px' : '20px',
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '24px 16px',
+        flexShrink: 0
       }}
     >
       <button

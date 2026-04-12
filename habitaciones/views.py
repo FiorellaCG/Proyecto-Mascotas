@@ -93,6 +93,27 @@ class HabitacionDetailView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def put(self, request, pk):
+        usuario = get_usuario_session(request)
+        if not usuario or not is_admin(usuario):
+            return Response({'error': 'Sin permiso'}, status=403)
+        try:
+            habitacion = Habitacion.objects.get(habitacion_id=pk)
+        except Habitacion.DoesNotExist:
+            return Response({'error': 'No encontrada'}, status=404)
+
+        serializer = HabitacionCreateUpdateSerializer(
+            habitacion, data=request.data, partial=True
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(HabitacionDetailSerializer(
+                Habitacion.objects.select_related(
+                    'tipo_habitacion', 'estado_habitacion'
+                ).get(pk=pk)
+            ).data)
+        return Response(serializer.errors, status=400)
+
 
 # RF-21 y RF-22: Limpiezas de una habitación (Listar y Registrar)
 class ListLimpiezasView(APIView):
@@ -271,8 +292,12 @@ class MisLimpiezasView(APIView):
             return Response({'error': 'No autenticado'}, status=401)
         limpiezas = Limpiezahabitacion.objects.filter(
             realizada_por_id=usuario.usuario_id
-        ).select_related('habitacion__tipo_habitacion', 'habitacion__estado_habitacion')\
-         .order_by('-fecha_limpieza')
+        ).select_related(
+            'habitacion',
+            'habitacion__tipo_habitacion',
+            'habitacion__estado_habitacion',
+            'realizada_por'
+        ).order_by('-fecha_limpieza')
         serializer = LimpiezahabitacionSerializer(limpiezas, many=True)
         return Response(serializer.data)
 

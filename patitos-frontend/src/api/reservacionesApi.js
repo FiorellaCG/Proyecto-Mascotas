@@ -9,3 +9,4 @@ export const getHabitacionesDisponibles = (params) => api.get('/api/reservacione
 // Admin
 export const getTodasReservaciones    = (params) => api.get('/api/reservaciones/todas/', { params });
 export const cambiarEstadoReservacion = (id, data) => api.patch(`/api/reservaciones/${id}/estado/`, data);
+export const eliminarReservacion = (id) => api.delete(`/api/reservaciones/${id}/eliminar/`);

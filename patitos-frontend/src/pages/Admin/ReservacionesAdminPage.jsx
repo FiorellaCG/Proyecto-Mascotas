@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getTodasReservaciones, cambiarEstadoReservacion } from '../../api/reservacionesApi';
+import { getTodasReservaciones, cambiarEstadoReservacion, eliminarReservacion } from '../../api/reservacionesApi';
 
 export default function ReservacionesAdminPage() {
   const [reservaciones, setReservaciones] = useState([]);
@@ -53,6 +53,17 @@ export default function ReservacionesAdminPage() {
     }
   };
 
+  const handleEliminar = async (reservacion_id) => {
+    if (!window.confirm('¿Estás seguro de eliminar esta reservación finalizada?')) return
+    try {
+      await eliminarReservacion(reservacion_id)
+      setReservaciones(prev => prev.filter(r => r.reservacion_id !== reservacion_id))
+      showToast('✅ Reservación eliminada con éxito')
+    } catch (err) {
+      showToast('❌ Error al eliminar', true)
+    }
+  };
+
   const getBadgeStyle = (estado) => {
     switch(estado) {
       case 'Pendiente': return { bg: '#EEEEEE', color: '#555555' };
@@ -68,7 +79,7 @@ export default function ReservacionesAdminPage() {
   };
 
   return (
-    <div style={{ padding: '40px', fontFamily: '"Inter", sans-serif', maxWidth: '1200px', margin: '0 auto', marginLeft: '250px' }}>
+    <div style={{ padding: '32px 40px', maxWidth: '1200px', width: '100%', boxSizing: 'border-box', fontFamily: '"Inter", sans-serif' }}>
       
       {toast && (
         <div style={{
@@ -172,6 +183,20 @@ export default function ReservacionesAdminPage() {
                         >
                           Guardar
                         </button>
+                        {res.estado_reservacion?.nombre === 'Finalizada' && (
+                          <button
+                            onClick={() => handleEliminar(res.reservacion_id)}
+                            style={{
+                              background:'#FF6B6B', color:'#FFFFFF',
+                              border:'none', borderRadius:'8px',
+                              padding:'6px 14px', fontSize:'13px',
+                              fontWeight:600, cursor:'pointer',
+                              marginLeft:'8px'
+                            }}
+                          >
+                            🗑 Eliminar
+                          </button>
+                        )}
                       </td>
                     </tr>
                   )

@@ -9,6 +9,7 @@ import {
   crearMantenimiento,
   completarMantenimiento,
   editarCamara,
+  actualizarHabitacionCompleta,
 } from '../../api/habitacionesApi';
 
 export default function HabitacionDetailPage() {
@@ -22,6 +23,39 @@ export default function HabitacionDetailPage() {
   const [error, setError] = useState(null);
   
   const [activeTab, setActiveTab] = useState('detalle'); // detalle, limpiezas, mantenimientos
+
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editForm, setEditForm] = useState({});
+  const [editError, setEditError] = useState(null);
+  const [editLoading, setEditLoading] = useState(false);
+
+  const handleAbrirModal = () => {
+    setEditForm({
+      numero: habitacion.numero || '',
+      descripcion: habitacion.descripcion || '',
+      capacidad: habitacion.capacidad || 1,
+      tipo_habitacion: habitacion.tipo_habitacion || '',
+      estado_habitacion: habitacion.estado_habitacion || '',
+      url_camara: habitacion.url_camara || '',
+      activa: habitacion.activa ?? true,
+    });
+    setEditError(null);
+    setShowEditModal(true);
+  };
+
+  const handleGuardarEdicion = async () => {
+    setEditLoading(true);
+    setEditError(null);
+    try {
+      await actualizarHabitacionCompleta(id, editForm);
+      setShowEditModal(false);
+      cargarDatos();
+    } catch (err) {
+      setEditError(err.response?.data?.error || 'Error al actualizar');
+    } finally {
+      setEditLoading(false);
+    }
+  };
   
   // States for 'Cambiar estado'
   const [nuevoEstadoId, setNuevoEstadoId] = useState('');
@@ -132,6 +166,8 @@ export default function HabitacionDetailPage() {
     }
   };
 
+  const labelStyle = { display:'block', marginBottom:'6px', fontSize:'14px', color:'#555555', fontWeight:500 };
+
   const inputStyle = {
     border: '1px solid #DDDDDD',
     borderRadius: '8px',
@@ -179,23 +215,36 @@ export default function HabitacionDetailPage() {
             </span>
           )}
         </div>
-        <button
-          onClick={() => navigate('/admin/habitaciones')}
-          style={{
-            border: '1px solid #DDDDDD',
-            background: 'transparent',
-            borderRadius: '8px',
-            padding: '8px 16px',
-            fontWeight: 600,
-            color: '#1A1A1A',
-            cursor: 'pointer',
-            transition: 'background 0.2s'
-          }}
-          onMouseEnter={(e) => e.target.style.background = '#F8F8F8'}
-          onMouseLeave={(e) => e.target.style.background = 'transparent'}
-        >
-          ← Volver
-        </button>
+        <div style={{ display:'flex', gap:'8px' }}>
+          <button
+            onClick={handleAbrirModal}
+            style={{
+              background:'#1A1A1A', color:'#FFFFFF',
+              fontWeight:600, border:'none',
+              borderRadius:'8px', padding:'8px 16px',
+              cursor:'pointer', fontSize:'14px'
+            }}
+          >
+            ✏️ Editar habitación
+          </button>
+          <button
+            onClick={() => navigate('/admin/habitaciones')}
+            style={{
+              border: '1px solid #DDDDDD',
+              background: 'transparent',
+              borderRadius: '8px',
+              padding: '8px 16px',
+              fontWeight: 600,
+              color: '#1A1A1A',
+              cursor: 'pointer',
+              transition: 'background 0.2s'
+            }}
+            onMouseEnter={(e) => e.target.style.background = '#F8F8F8'}
+            onMouseLeave={(e) => e.target.style.background = 'transparent'}
+          >
+            ← Volver
+          </button>
+        </div>
       </div>
 
       {/* Pestañas */}
@@ -566,6 +615,124 @@ export default function HabitacionDetailPage() {
                 )}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Editar Habitación */}
+      {showEditModal && (
+        <div style={{
+          position:'fixed', inset:0,
+          background:'rgba(0,0,0,0.5)',
+          display:'flex', alignItems:'center',
+          justifyContent:'center', zIndex:1000
+        }}>
+          <div style={{
+            background:'#FFFFFF', borderRadius:'16px',
+            padding:'32px', width:'100%', maxWidth:'520px',
+            maxHeight:'90vh', overflowY:'auto'
+          }}>
+            <h2 style={{ margin:'0 0 24px 0', fontSize:'20px', fontWeight:700, color:'#1A1A1A' }}>
+              Editar Habitación
+            </h2>
+
+            {/* Número */}
+            <div style={{ marginBottom:'16px' }}>
+              <label style={labelStyle}>Número</label>
+              <input value={editForm.numero}
+                onChange={e => setEditForm({...editForm, numero: e.target.value})}
+                style={inputStyle} />
+            </div>
+
+            {/* Tipo */}
+            <div style={{ marginBottom:'16px' }}>
+              <label style={labelStyle}>Tipo de habitación</label>
+              <select value={editForm.tipo_habitacion}
+                onChange={e => setEditForm({...editForm, tipo_habitacion: e.target.value})}
+                style={inputStyle}>
+                <option value="1">Habitación individual</option>
+                <option value="2">Habitación individual con cámara</option>
+                <option value="3">Habitación de cuidados especiales</option>
+              </select>
+            </div>
+
+            {/* Estado */}
+            <div style={{ marginBottom:'16px' }}>
+              <label style={labelStyle}>Estado</label>
+              <select value={editForm.estado_habitacion}
+                onChange={e => setEditForm({...editForm, estado_habitacion: e.target.value})}
+                style={inputStyle}>
+                <option value="1">Disponible</option>
+                <option value="2">Reservada</option>
+                <option value="3">En mantenimiento</option>
+                <option value="4">Cerrada</option>
+              </select>
+            </div>
+
+            {/* Capacidad */}
+            <div style={{ marginBottom:'16px' }}>
+              <label style={labelStyle}>Capacidad</label>
+              <input type="number" min="1" value={editForm.capacidad}
+                onChange={e => setEditForm({...editForm, capacidad: parseInt(e.target.value)})}
+                style={inputStyle} />
+            </div>
+
+            {/* Descripción */}
+            <div style={{ marginBottom:'16px' }}>
+              <label style={labelStyle}>Descripción</label>
+              <textarea value={editForm.descripcion}
+                onChange={e => setEditForm({...editForm, descripcion: e.target.value})}
+                style={{ ...inputStyle, minHeight:'80px', resize:'vertical' }} />
+            </div>
+
+            {/* URL Cámara */}
+            <div style={{ marginBottom:'16px' }}>
+              <label style={labelStyle}>URL Cámara (Google Meet)</label>
+              <input value={editForm.url_camara}
+                onChange={e => setEditForm({...editForm, url_camara: e.target.value})}
+                placeholder="https://meet.google.com/..."
+                style={inputStyle} />
+            </div>
+
+            {/* Activa */}
+            <div style={{ marginBottom:'24px', display:'flex', alignItems:'center', gap:'8px' }}>
+              <input type="checkbox" checked={editForm.activa}
+                onChange={e => setEditForm({...editForm, activa: e.target.checked})}
+                id="activa" />
+              <label htmlFor="activa" style={{ fontSize:'14px', color:'#1A1A1A', fontWeight:500 }}>
+                Habitación activa
+              </label>
+            </div>
+
+            {editError && (
+              <p style={{ color:'#FF6B6B', fontSize:'13px', marginBottom:'16px' }}>
+                ⚠ {editError}
+              </p>
+            )}
+
+            <div style={{ display:'flex', gap:'12px', justifyContent:'flex-end' }}>
+              <button onClick={() => setShowEditModal(false)}
+                style={{
+                  background:'#FFFFFF', color:'#1A1A1A',
+                  border:'1px solid #DDDDDD', borderRadius:'8px',
+                  padding:'10px 20px', cursor:'pointer',
+                  fontWeight:600, boxShadow:'0 1px 3px rgba(0,0,0,0.05)'
+                }}
+                onMouseEnter={(e) => { e.target.style.background = '#F8F8F8'; e.target.style.borderColor = '#CCCCCC'; }}
+                onMouseLeave={(e) => { e.target.style.background = '#FFFFFF'; e.target.style.borderColor = '#DDDDDD'; }}
+               >
+                Cancelar
+              </button>
+              <button onClick={handleGuardarEdicion} disabled={editLoading}
+                style={{
+                  background:'#F5A800', color:'#1A1A1A',
+                  border:'none', borderRadius:'8px',
+                  padding:'10px 24px', cursor:'pointer',
+                  fontWeight:600
+                }}>
+                {editLoading ? 'Guardando...' : 'Guardar cambios'}
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -222,7 +222,6 @@ export default function GestionUsuariosPage() {
                     <th style={{ padding: '16px' }}>Teléfono</th>
                     <th style={{ padding: '16px' }}>Rol</th>
                     <th style={{ padding: '16px' }}>Estado</th>
-                    <th style={{ padding: '16px' }}>Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -243,11 +242,6 @@ export default function GestionUsuariosPage() {
                           <span style={{ color: usu.activo ? '#28C76F' : '#FF6B6B', fontWeight: 600 }}>
                             {usu.activo ? 'Activo' : 'Inactivo'}
                           </span>
-                        </td>
-                        <td style={{ padding: '16px' }}>
-                          <button style={{ background: 'none', border: 'none', color: '#1E90FF', cursor: 'pointer', fontWeight: 500 }}>
-                            Ver detalles
-                          </button>
                         </td>
                       </tr>
                     );

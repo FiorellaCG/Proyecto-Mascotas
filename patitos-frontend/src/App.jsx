@@ -14,11 +14,19 @@ function App() {
   return (
     <div className="app-container">
       <Navbar />
-      {isAdmin && <SidebarAdmin />}
-      {isPersonal && <SidebarPersonal />}
-      <main style={{ marginLeft: hasSidebar ? '250px' : '0px', transition: 'margin-left 0.3s ease' }}>
-        <AppRoutes />
-      </main>
+      {hasSidebar ? (
+        <div style={{ display: 'flex', minHeight: '100vh' }}>
+          {isAdmin && <SidebarAdmin />}
+          {isPersonal && <SidebarPersonal />}
+          <main style={{ flex: 1, background: '#F8F8F8', padding: '32px 40px', overflowY: 'auto' }}>
+            <AppRoutes />
+          </main>
+        </div>
+      ) : (
+        <main style={{ minHeight: '100vh', background: '#F8F8F8' }}>
+          <AppRoutes />
+        </main>
+      )}
     </div>
   );
 }

@@ -18,6 +18,8 @@ export const getHabitacion = (id) => api.get(`/api/habitaciones/${id}/`);
 // RF-20: Cambiar estado de habitación
 export const actualizarHabitacion = (id, data) => api.patch(`/api/habitaciones/${id}/`, data);
 
+export const actualizarHabitacionCompleta = (id, data) => api.put(`/api/habitaciones/${id}/`, data);
+
 // RF-21: Registrar limpieza
 export const registrarLimpieza = (habitacionId, data) => 
   api.post(`/api/habitaciones/${habitacionId}/limpiezas/`, data);

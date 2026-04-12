@@ -157,14 +157,13 @@ export default function HabitacionesListPage() {
               <th style={{ padding: '14px 16px', textAlign: 'left', fontWeight: 600, color: '#1A1A1A' }}>Tipo</th>
               <th style={{ padding: '14px 16px', textAlign: 'left', fontWeight: 600, color: '#1A1A1A' }}>Estado</th>
               <th style={{ padding: '14px 16px', textAlign: 'left', fontWeight: 600, color: '#1A1A1A' }}>Capacidad</th>
-              <th style={{ padding: '14px 16px', textAlign: 'left', fontWeight: 600, color: '#1A1A1A' }}>Cámara</th>
               <th style={{ padding: '14px 16px', textAlign: 'left', fontWeight: 600, color: '#1A1A1A' }}>Acciones</th>
             </tr>
           </thead>
           <tbody>
             {habitaciones.length === 0 ? (
               <tr>
-                <td colSpan="6" style={{ textAlign: 'center', padding: '40px', color: '#555555' }}>
+                <td colSpan="5" style={{ textAlign: 'center', padding: '40px', color: '#555555' }}>
                   No hay habitaciones para mostrar
                 </td>
               </tr>
@@ -193,9 +192,6 @@ export default function HabitacionesListPage() {
                       </span>
                     </td>
                     <td style={{ padding: '14px 16px', color: '#555555' }}>{hab.capacidad}</td>
-                    <td style={{ padding: '14px 16px', color: '#555555' }}>
-                      {hab.tiene_camara ? '📷' : <span style={{ color: '#CCCCCC' }}>—</span>}
-                    </td>
                     <td style={{ padding: '14px 16px' }}>
                       <button
                         onClick={() => navigate(`/admin/habitaciones/${hab.habitacion_id}`)}

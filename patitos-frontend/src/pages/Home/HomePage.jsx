@@ -88,26 +88,22 @@ const HomePage = () => {
             <div className="package-card">
               <h3>Disfrute de juegos</h3>
               <p>Sesión de juegos y entretenimiento supervisado</p>
-              <span className="price">Consultar precio</span>
-              <button className="btn-add" onClick={() => navigate('/login')}>Agregar al reservar</button>
+              <button className="btn-add" onClick={() => navigate('/login')}>Crear reservación</button>
             </div>
             <div className="package-card">
               <h3>Paseos con acompañamiento</h3>
               <p>Paseo a sitios externos con especialista</p>
-              <span className="price">Consultar precio</span>
-              <button className="btn-add" onClick={() => navigate('/login')}>Agregar al reservar</button>
+              <button className="btn-add" onClick={() => navigate('/login')}>Crear reservación</button>
             </div>
             <div className="package-card">
               <h3>Paseo a espacio con piscina</h3>
               <p>Visita a área recreativa con piscina</p>
-              <span className="price">Consultar precio</span>
-              <button className="btn-add" onClick={() => navigate('/login')}>Agregar al reservar</button>
+              <button className="btn-add" onClick={() => navigate('/login')}>Crear reservación</button>
             </div>
             <div className="package-card">
               <h3>Terapias en piscina</h3>
               <p>Sesiones terapéuticas supervisadas</p>
-              <span className="price">Consultar precio</span>
-              <button className="btn-add" onClick={() => navigate('/login')}>Agregar al reservar</button>
+              <button className="btn-add" onClick={() => navigate('/login')}>Crear reservación</button>
             </div>
           </div>
         </div>
