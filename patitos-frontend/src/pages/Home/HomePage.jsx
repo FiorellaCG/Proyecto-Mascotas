@@ -78,49 +78,7 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* SECCIÓN 3: NIVELES DE ASISTENCIA */}
-      <section id="asistencia" className="assistance-section">
-        <div className="section-container">
-          <h2 className="section-title">Niveles de Asistencia</h2>
-          <div className="assistance-cards">
-            <div className="asist-card">
-              <div className="asist-info">
-                <h3>Asistencia básica</h3>
-                <p>Cuidados generales</p>
-              </div>
-              <span className="badge badge-green">Nivel 1</span>
-            </div>
-            <div className="asist-card">
-              <div className="asist-info">
-                <h3>Asistencia para movilidad</h3>
-                <p>Soporte para desplazamiento</p>
-              </div>
-              <span className="badge badge-blue">Nivel 2</span>
-            </div>
-            <div className="asist-card">
-              <div className="asist-info">
-                <h3>Asistencia para alimentación</h3>
-                <p>Apoyo durante comidas</p>
-              </div>
-              <span className="badge badge-blue">Nivel 3</span>
-            </div>
-            <div className="asist-card">
-              <div className="asist-info">
-                <h3>Asistencia para baño</h3>
-                <p>Higiene y limpieza profunda</p>
-              </div>
-              <span className="badge badge-blue">Nivel 4</span>
-            </div>
-            <div className="asist-card">
-              <div className="asist-info">
-                <h3>Asistencia completa</h3>
-                <p>Atención total 24/7</p>
-              </div>
-              <span className="badge badge-yellow">Premium</span>
-            </div>
-          </div>
-        </div>
-      </section>
+
 
       {/* SECCIÓN 4: PAQUETES ADICIONALES */}
       <section id="paquetes" className="packages-section">

@@ -2,36 +2,25 @@ from django.urls import path
 from .views import (
     ListAllHabitacionesView,
     HabitacionDetailView,
-    RegistrarLimpiezaView,
     ListLimpiezasView,
     ListMantenimientosView,
     TiposHabitacionView,
     EstadosHabitacionView,
     HabitacionesPersonalView,
     MisLimpiezasView,
+    CompletarMantenimientoView,
+    CrearHabitacionView,
 )
 
 urlpatterns = [
-    path('personal/', HabitacionesPersonalView.as_view(), name='habitaciones_personal'),
-    path('mis-limpiezas/', MisLimpiezasView.as_view(), name='mis_limpiezas'),
-    # RF-24: Tipos de habitación
-    path('tipos/', TiposHabitacionView.as_view(), name='tipos_habitacion'),
-    
-    # Estados de habitación (auxiliar)
-    path('estados/', EstadosHabitacionView.as_view(), name='estados_habitacion'),
-    
-    # RF-19: Listar todas las habitaciones
-    path('', ListAllHabitacionesView.as_view(), name='lista_habitaciones'),
-    
-    # RF-20: Detalle y actualizar habitación
-    path('<int:pk>/', HabitacionDetailView.as_view(), name='detalle_habitacion'),
-    
-    # RF-21: Registrar limpieza
-    path('<int:habitacion_id>/limpiezas/', RegistrarLimpiezaView.as_view(), name='registrar_limpieza'),
-    
-    # RF-22: Listar limpiezas
-    path('<int:habitacion_id>/limpiezas/', ListLimpiezasView.as_view(), name='listar_limpiezas'),
-    
-    # RF-23: Listar y crear mantenimientos
-    path('<int:habitacion_id>/mantenimientos/', ListMantenimientosView.as_view(), name='listar_mantenimientos'),
+    path('crear/',                                  CrearHabitacionView.as_view()),
+    path('',                                        ListAllHabitacionesView.as_view()),
+    path('personal/',                               HabitacionesPersonalView.as_view()),
+    path('mis-limpiezas/',                          MisLimpiezasView.as_view()),
+    path('tipos/',                                  TiposHabitacionView.as_view()),
+    path('estados/',                                EstadosHabitacionView.as_view()),
+    path('<int:pk>/',                               HabitacionDetailView.as_view()),
+    path('<int:habitacion_id>/limpiezas/',          ListLimpiezasView.as_view()),
+    path('<int:habitacion_id>/mantenimientos/',     ListMantenimientosView.as_view()),
+    path('mantenimientos/<int:mantenimiento_id>/completar/', CompletarMantenimientoView.as_view()),
 ]

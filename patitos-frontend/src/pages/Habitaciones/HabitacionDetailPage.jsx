@@ -7,6 +7,7 @@ import {
   getHistorialLimpiezas,
   getMantenimientos,
   crearMantenimiento,
+  completarMantenimiento,
 } from '../../api/habitacionesApi';
 
 export default function HabitacionDetailPage() {
@@ -85,6 +86,15 @@ export default function HabitacionDetailPage() {
       alert(err.response?.data?.error || 'Error al crear solicitud de mantenimiento');
     }
   };
+
+  const handleCambiarEstadoMant = async (mantenimiento_id, completado) => {
+    try {
+      await completarMantenimiento(mantenimiento_id, { completado })
+      cargarDatos() // recarga tabla
+    } catch (err) {
+      alert('Error al actualizar mantenimiento')
+    }
+  }
 
   const getColorStyles = (estadoNombre) => {
     switch (estadoNombre) {
@@ -429,12 +439,13 @@ export default function HabitacionDetailPage() {
                   <th style={{ padding: '16px' }}>Descripción</th>
                   <th style={{ padding: '16px' }}>Fecha solicitud</th>
                   <th style={{ padding: '16px' }}>Estado</th>
+                  <th style={{ padding: '16px' }}>Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 {mantenimientos.length === 0 ? (
                   <tr>
-                    <td colSpan="4" style={{ padding: '24px', textAlign: 'center', color: '#555555' }}>
+                    <td colSpan="5" style={{ padding: '24px', textAlign: 'center', color: '#555555' }}>
                       No hay solicitudes de mantenimiento registradas
                     </td>
                   </tr>
@@ -456,6 +467,33 @@ export default function HabitacionDetailPage() {
                         }}>
                           {mant.completado ? 'Completado' : 'Pendiente'}
                         </span>
+                      </td>
+                      <td style={{ padding: '16px' }}>
+                        {!mant.completado ? (
+                          <button
+                            onClick={() => handleCambiarEstadoMant(mant.mantenimiento_id, true)}
+                            style={{
+                              background: '#28C76F', color: '#FFFFFF',
+                              border: 'none', borderRadius: '8px',
+                              padding: '6px 14px', fontSize: '13px',
+                              fontWeight: 600, cursor: 'pointer'
+                            }}
+                          >
+                            ✓ Completar
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => handleCambiarEstadoMant(mant.mantenimiento_id, false)}
+                            style={{
+                              background: '#FF9800', color: '#FFFFFF',
+                              border: 'none', borderRadius: '8px',
+                              padding: '6px 14px', fontSize: '13px',
+                              fontWeight: 600, cursor: 'pointer'
+                            }}
+                          >
+                            ↩ Reabrir
+                          </button>
+                        )}
                       </td>
                     </tr>
                   ))

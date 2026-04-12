@@ -33,3 +33,8 @@ export const getMantenimientos = (habitacionId, params) =>
 // RF-23: Crear solicitud de mantenimiento
 export const crearMantenimiento = (habitacionId, data) => 
   api.post(`/api/habitaciones/${habitacionId}/mantenimientos/`, data);
+
+export const completarMantenimiento = (mantenimiento_id, data) =>
+  api.patch(`/api/habitaciones/mantenimientos/${mantenimiento_id}/completar/`, data);
+
+export const crearHabitacion = (data) => api.post('/api/habitaciones/crear/', data);

@@ -9,9 +9,12 @@ import DashboardDuenoPage from '../pages/MiCuenta/DashboardDuenoPage';
 import MisMascotasPage from '../pages/MiCuenta/MisMascotasPage';
 import RegistrarMascotaPage from '../pages/MiCuenta/RegistrarMascotaPage';
 import MascotaDetallePage from '../pages/MiCuenta/MascotaDetallePage';
+import MisReservacionesPage from '../pages/MiCuenta/MisReservacionesPage';
+import CrearReservacionPage from '../pages/MiCuenta/CrearReservacionPage';
 import HabitacionesListPage from '../pages/Habitaciones/HabitacionesListPage';
 import HabitacionDetailPage from '../pages/Habitaciones/HabitacionDetailPage';
 import GestionUsuariosPage from '../pages/Admin/GestionUsuariosPage';
+import ReservacionesAdminPage from '../pages/Admin/ReservacionesAdminPage';
 
 import MisLimpiezasPage from '../pages/Personal/MisLimpiezasPage';
 import RegistrarLimpiezaPage from '../pages/Personal/RegistrarLimpiezaPage';
@@ -85,6 +88,7 @@ const AppRoutes = () => {
             <Route path="habitaciones" element={<HabitacionesListPage />} />
             <Route path="habitaciones/:id" element={<HabitacionDetailPage />} />
             <Route path="usuarios" element={<GestionUsuariosPage />} />
+            <Route path="reservaciones" element={<ReservacionesAdminPage />} />
           </Routes>
         </PrivateRoute>
       } />
@@ -96,6 +100,8 @@ const AppRoutes = () => {
             <Route path="mascotas/nueva" element={<RegistrarMascotaPage />} />
             <Route path="mascotas/:id" element={<MascotaDetallePage />} />
             <Route path="mascotas" element={<MisMascotasPage />} />
+            <Route path="reservaciones" element={<MisReservacionesPage />} />
+            <Route path="reservaciones/nueva" element={<CrearReservacionPage />} />
           </Routes>
         </PrivateRoute>
       } />

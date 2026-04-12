@@ -28,15 +28,15 @@ class UsuarioBasicSerializer(serializers.ModelSerializer):
 class LimpiezahabitacionSerializer(serializers.ModelSerializer):
     realizada_por_nombre = serializers.SerializerMethodField()
 
+    def get_realizada_por_nombre(self, obj):
+        if obj.realizada_por:
+            return f"{obj.realizada_por.nombre} {obj.realizada_por.apellidos}"
+        return None
+
     class Meta:
         model = Limpiezahabitacion
-        fields = [
-            'limpieza_id', 'habitacion', 'realizada_por', 'realizada_por_nombre',
-            'fecha_limpieza', 'hora_inicio', 'hora_fin', 'observaciones'
-        ]
-
-    def get_realizada_por_nombre(self, obj):
-        return obj.realizada_por.nombre if obj.realizada_por else None
+        fields = ['limpieza_id', 'fecha_limpieza', 'hora_inicio', 'hora_fin',
+                  'observaciones', 'realizada_por', 'realizada_por_nombre']
 
 
 class LimpiezahabitacionCreateSerializer(serializers.ModelSerializer):
@@ -61,10 +61,15 @@ class MantenimientohabitacionSerializer(serializers.ModelSerializer):
 
 
 class MantenimientohabitacionCreateSerializer(serializers.ModelSerializer):
-    """Para crear solicitudes de mantenimiento"""
+    completado = serializers.BooleanField(default=False, required=False)
+
     class Meta:
         model = Mantenimientohabitacion
-        fields = ['habitacion', 'tipo', 'descripcion', 'fecha_solicitud']
+        fields = ['habitacion', 'tipo', 'descripcion', 'fecha_solicitud', 'completado']
+
+    def create(self, validated_data):
+        validated_data.setdefault('completado', False)
+        return super().create(validated_data)
 
 
 class HabitacionDetailSerializer(serializers.ModelSerializer):
@@ -104,3 +109,25 @@ class HabitacionCreateUpdateSerializer(serializers.ModelSerializer):
             'tipo_habitacion', 'estado_habitacion', 'numero', 'descripcion',
             'capacidad', 'url_camara', 'activa'
         ]
+
+class HabitacionCreateSerializer(serializers.ModelSerializer):
+    tipo_habitacion_id = serializers.IntegerField(required=True)
+    estado_habitacion_id = serializers.IntegerField(default=1)
+    numero = serializers.CharField(required=True)
+    capacidad = serializers.IntegerField(required=True, min_value=1)
+    activa = serializers.BooleanField(default=True)
+
+    class Meta:
+        model = Habitacion
+        fields = [
+            'tipo_habitacion_id', 'estado_habitacion_id', 'numero', 'descripcion',
+            'capacidad', 'url_camara', 'activa'
+        ]
+
+    def validate_numero(self, value):
+        if Habitacion.objects.filter(numero=value).exists():
+            raise serializers.ValidationError("Ya existe una habitación con este número.")
+        return value
+
+    def create(self, validated_data):
+        return Habitacion.objects.create(**validated_data)

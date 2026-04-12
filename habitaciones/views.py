@@ -10,6 +10,7 @@ from .models import (
 from .serializers import (
     HabitacionListSerializer, HabitacionDetailSerializer,
     HabitacionCreateUpdateSerializer, TipohabitacionSerializer,
+    HabitacionCreateSerializer,
     LimpiezahabitacionSerializer, LimpiezahabitacionCreateSerializer,
     MantenimientohabitacionSerializer, MantenimientohabitacionCreateSerializer,
     EstadohabitacionSerializer
@@ -93,9 +94,30 @@ class HabitacionDetailView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# RF-21: Registrar limpieza de habitación
-class RegistrarLimpiezaView(APIView):
+# RF-21 y RF-22: Limpiezas de una habitación (Listar y Registrar)
+class ListLimpiezasView(APIView):
     permission_classes = [AllowAny]
+    
+    def get(self, request, habitacion_id):
+        """Obtener historial de limpiezas de una habitación"""
+        try:
+            habitacion = Habitacion.objects.get(habitacion_id=habitacion_id)
+        except Habitacion.DoesNotExist:
+            return Response(
+                {'error': 'Habitación no encontrada'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        limpiezas = habitacion.limpiezas.select_related('realizada_por').order_by('-fecha_limpieza')
+        serializer = LimpiezahabitacionSerializer(limpiezas, many=True)
+        
+        return Response({
+            'habitacion_id': habitacion_id,
+            'habitacion_numero': habitacion.numero,
+            'total_limpiezas': limpiezas.count(),
+            'limpiezas': serializer.data
+        })
+
     def post(self, request, habitacion_id):
         """Registrar una limpieza"""
         usuario = get_usuario_session(request)
@@ -125,30 +147,6 @@ class RegistrarLimpiezaView(APIView):
             )
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-# RF-22: Listar limpiezas de una habitación
-class ListLimpiezasView(APIView):
-    permission_classes = [AllowAny]
-    def get(self, request, habitacion_id):
-        """Obtener historial de limpiezas de una habitación"""
-        try:
-            habitacion = Habitacion.objects.get(habitacion_id=habitacion_id)
-        except Habitacion.DoesNotExist:
-            return Response(
-                {'error': 'Habitación no encontrada'},
-                status=status.HTTP_404_NOT_FOUND
-            )
-
-        limpiezas = habitacion.limpiezas.select_related('realizada_por').order_by('-fecha_limpieza')
-        serializer = LimpiezahabitacionSerializer(limpiezas, many=True)
-        
-        return Response({
-            'habitacion_id': habitacion_id,
-            'habitacion_numero': habitacion.numero,
-            'total_limpiezas': limpiezas.count(),
-            'limpiezas': serializer.data
-        })
 
 
 # RF-23: Listar mantenimientos pendientes de una habitación
@@ -208,6 +206,31 @@ class ListMantenimientosView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class CompletarMantenimientoView(APIView):
+    permission_classes = [AllowAny]
+
+    def patch(self, request, mantenimiento_id):
+        usuario = get_usuario_session(request)
+        if not usuario or not is_admin(usuario):
+            return Response({'error': 'Sin permiso'}, status=403)
+        try:
+            mant = Mantenimientohabitacion.objects.get(pk=mantenimiento_id)
+        except Mantenimientohabitacion.DoesNotExist:
+            return Response({'error': 'No encontrado'}, status=404)
+
+        completado = request.data.get('completado')
+        if completado is None:
+            return Response({'error': 'Campo completado requerido'}, status=400)
+
+        mant.completado = bool(completado)
+        if bool(completado):
+            from django.utils.timezone import now
+            mant.fecha_realizacion = now().date()
+            mant.realizado_por_id = usuario.usuario_id
+        mant.save()
+        return Response(MantenimientohabitacionSerializer(mant).data)
+
+
 # RF-24: Listar tipos de habitación
 class TiposHabitacionView(APIView):
     permission_classes = [AllowAny]
@@ -252,3 +275,16 @@ class MisLimpiezasView(APIView):
          .order_by('-fecha_limpieza')
         serializer = LimpiezahabitacionSerializer(limpiezas, many=True)
         return Response(serializer.data)
+
+class CrearHabitacionView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        usuario = get_usuario_session(request)
+        if not usuario or not is_admin(usuario):
+            return Response({'error': 'Sin permiso'}, status=403)
+        serializer = HabitacionCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            habitacion = serializer.save()
+            return Response(HabitacionListSerializer(habitacion).data, status=201)
+        return Response(serializer.errors, status=400)
