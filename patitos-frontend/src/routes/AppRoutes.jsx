@@ -11,6 +11,7 @@ import RegistrarMascotaPage from '../pages/MiCuenta/RegistrarMascotaPage';
 import MascotaDetallePage from '../pages/MiCuenta/MascotaDetallePage';
 import MisReservacionesPage from '../pages/MiCuenta/MisReservacionesPage';
 import CrearReservacionPage from '../pages/MiCuenta/CrearReservacionPage';
+import DetalleReservacionPage from '../pages/MiCuenta/DetalleReservacionPage';
 import HabitacionesListPage from '../pages/Habitaciones/HabitacionesListPage';
 import HabitacionDetailPage from '../pages/Habitaciones/HabitacionDetailPage';
 import GestionUsuariosPage from '../pages/Admin/GestionUsuariosPage';
@@ -101,6 +102,7 @@ const AppRoutes = () => {
             <Route path="mascotas/:id" element={<MascotaDetallePage />} />
             <Route path="mascotas" element={<MisMascotasPage />} />
             <Route path="reservaciones" element={<MisReservacionesPage />} />
+            <Route path="reservaciones/:id" element={<DetalleReservacionPage />} />
             <Route path="reservaciones/nueva" element={<CrearReservacionPage />} />
           </Routes>
         </PrivateRoute>

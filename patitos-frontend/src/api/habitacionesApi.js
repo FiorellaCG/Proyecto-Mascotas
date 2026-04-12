@@ -38,3 +38,5 @@ export const completarMantenimiento = (mantenimiento_id, data) =>
   api.patch(`/api/habitaciones/mantenimientos/${mantenimiento_id}/completar/`, data);
 
 export const crearHabitacion = (data) => api.post('/api/habitaciones/crear/', data);
+
+export const editarCamara = (id, data) => api.patch(`/api/habitaciones/${id}/camara/`, data);

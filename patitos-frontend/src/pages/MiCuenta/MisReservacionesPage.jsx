@@ -72,6 +72,7 @@ export default function MisReservacionesPage() {
                 <th style={{ padding: '16px' }}>Fecha fin</th>
                 <th style={{ padding: '16px' }}>Paquetes</th>
                 <th style={{ padding: '16px' }}>Estado</th>
+                <th style={{ padding: '16px' }}>Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -98,9 +99,21 @@ export default function MisReservacionesPage() {
                         borderRadius: '20px', fontSize: '12px', fontWeight: 600, display: 'inline-block'
                       }}>{res.estado_reservacion?.nombre}</span>
                     </td>
+                    <td style={{ padding: '16px' }}>
+                      <button
+                        onClick={() => navigate(`/mi-cuenta/reservaciones/${res.reservacion_id}`)}
+                        style={{
+                          background: '#F5A800', color: '#1A1A1A', border: 'none',
+                          borderRadius: '8px', padding: '6px 14px', fontSize: '13px',
+                          fontWeight: 600, cursor: 'pointer'
+                        }}
+                      >
+                        Ver detalle
+                      </button>
+                    </td>
                   </tr>
-                )}
-              )}
+                );
+              })}
             </tbody>
           </table>
         </div>

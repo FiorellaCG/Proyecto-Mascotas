@@ -288,3 +288,20 @@ class CrearHabitacionView(APIView):
             habitacion = serializer.save()
             return Response(HabitacionListSerializer(habitacion).data, status=201)
         return Response(serializer.errors, status=400)
+
+class EditarCamaraView(APIView):
+    permission_classes = [AllowAny]
+
+    def patch(self, request, pk):
+        usuario = get_usuario_session(request)
+        if not usuario or not is_admin(usuario):
+            return Response({'error': 'Sin permiso'}, status=403)
+        try:
+            habitacion = Habitacion.objects.get(pk=pk)
+        except Habitacion.DoesNotExist:
+            return Response({'error': 'No encontrada'}, status=404)
+
+        url_camara = request.data.get('url_camara', '').strip()
+        habitacion.url_camara = url_camara if url_camara else None
+        habitacion.save()
+        return Response(HabitacionDetailSerializer(habitacion).data)

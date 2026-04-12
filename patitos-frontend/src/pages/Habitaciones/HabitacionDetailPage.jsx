@@ -8,6 +8,7 @@ import {
   getMantenimientos,
   crearMantenimiento,
   completarMantenimiento,
+  editarCamara,
 } from '../../api/habitacionesApi';
 
 export default function HabitacionDetailPage() {
@@ -28,6 +29,27 @@ export default function HabitacionDetailPage() {
 
   // States for 'Mantenimientos'
   const [showMantenimientoForm, setShowMantenimientoForm] = useState(false);
+
+  // States for 'Cámara'
+  const [urlCamara, setUrlCamara] = useState('');
+  const [mensajeCamara, setMensajeCamara] = useState(null);
+
+  useEffect(() => {
+    if (habitacion) {
+      setUrlCamara(habitacion.url_camara || '');
+    }
+  }, [habitacion]);
+
+  const handleGuardarCamara = async () => {
+    setMensajeCamara(null);
+    try {
+      await editarCamara(id, { url_camara: urlCamara });
+      setMensajeCamara({ tipo: 'success', text: 'URL de cámara actualizada' });
+      cargarDatos();
+    } catch {
+      setMensajeCamara({ tipo: 'error', text: 'Error al guardar' });
+    }
+  };
 
   useEffect(() => {
     cargarDatos();
@@ -241,14 +263,58 @@ export default function HabitacionDetailPage() {
                     <span style={{ color: '#555555', fontSize: '13px', display: 'block', marginBottom: '4px' }}>Activa</span> 
                     <span style={{ color: '#1A1A1A', fontWeight: 500 }}>{habitacion.activa ? '✅' : '❌'}</span>
                   </p>
-                  <p style={{ margin: '0' }}>
-                    <span style={{ color: '#555555', fontSize: '13px', display: 'block', marginBottom: '4px' }}>Cámara</span> 
-                    {habitacion.url_camara ? (
-                      <a href={habitacion.url_camara} target="_blank" rel="noreferrer" style={{ color: '#1E90FF', fontWeight: 500, textDecoration: 'none' }}>Ver cámara</a>
-                    ) : (
-                      <span style={{ color: '#1A1A1A', fontWeight: 500 }}>Sin cámara</span>
+                  <div>
+                    <span style={{ color:'#555555', fontSize:'13px', display:'block', marginBottom:'4px' }}>
+                      Cámara (link de Google Meet)
+                    </span>
+                    <div style={{ display:'flex', gap:'8px', alignItems:'center' }}>
+                      <input
+                        value={urlCamara}
+                        onChange={(e) => setUrlCamara(e.target.value)}
+                        placeholder="https://meet.google.com/xxx-xxxx-xxx"
+                        style={{
+                          border:'1px solid #DDDDDD', borderRadius:'8px',
+                          padding:'8px 12px', fontSize:'13px', flex:1,
+                          outline:'none'
+                        }}
+                        onFocus={(e) => e.target.style.borderColor = '#F5A800'}
+                        onBlur={(e) => e.target.style.borderColor = '#DDDDDD'}
+                      />
+                      <button
+                        onClick={handleGuardarCamara}
+                        style={{
+                          background:'#F5A800', color:'#1A1A1A', fontWeight:600,
+                          border:'none', borderRadius:'8px', padding:'8px 16px',
+                          cursor:'pointer', fontSize:'13px', whiteSpace:'nowrap'
+                        }}
+                      >
+                        Guardar
+                      </button>
+                    </div>
+                    {habitacion.url_camara && (
+                      <div style={{ marginTop:'10px' }}>
+                        <a
+                          href={habitacion.url_camara}
+                          target="_blank"
+                          rel="noreferrer"
+                          style={{
+                            color:'#1E90FF', fontSize:'13px',
+                            textDecoration:'none', fontWeight:500
+                          }}
+                        >
+                          🔗 Ver link guardado →
+                        </a>
+                      </div>
                     )}
-                  </p>
+                    {mensajeCamara && (
+                      <span style={{
+                        color: mensajeCamara.tipo === 'success' ? '#28C76F' : '#FF6B6B',
+                        fontSize:'13px', marginTop:'6px', display:'block'
+                      }}>
+                        {mensajeCamara.tipo === 'success' ? '✓ ' : '⚠ '}{mensajeCamara.text}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

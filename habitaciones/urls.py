@@ -10,6 +10,7 @@ from .views import (
     MisLimpiezasView,
     CompletarMantenimientoView,
     CrearHabitacionView,
+    EditarCamaraView,
 )
 
 urlpatterns = [
@@ -20,6 +21,7 @@ urlpatterns = [
     path('tipos/',                                  TiposHabitacionView.as_view()),
     path('estados/',                                EstadosHabitacionView.as_view()),
     path('<int:pk>/',                               HabitacionDetailView.as_view()),
+    path('<int:pk>/camara/',                        EditarCamaraView.as_view()),
     path('<int:habitacion_id>/limpiezas/',          ListLimpiezasView.as_view()),
     path('<int:habitacion_id>/mantenimientos/',     ListMantenimientosView.as_view()),
     path('mantenimientos/<int:mantenimiento_id>/completar/', CompletarMantenimientoView.as_view()),

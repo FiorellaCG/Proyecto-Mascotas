@@ -29,6 +29,7 @@ class ReservacionPaqueteSerializer(serializers.ModelSerializer):
 class ReservacionListSerializer(serializers.ModelSerializer):
     mascota_nombre = serializers.SerializerMethodField()
     habitacion_numero = serializers.SerializerMethodField()
+    url_camara = serializers.SerializerMethodField()
     tipo_estancia = TipoEstanciaSerializer(read_only=True)
     estado_reservacion = EstadoReservacionSerializer(read_only=True)
     paquetes = ReservacionPaqueteSerializer(many=True, read_only=True, source='paquetes_contratados')
@@ -38,8 +39,11 @@ class ReservacionListSerializer(serializers.ModelSerializer):
         fields = [
             'reservacion_id', 'fecha_inicio', 'fecha_fin', 'es_indefinida', 
             'observaciones', 'creada_en', 'mascota_nombre', 'habitacion_numero',
-            'tipo_estancia', 'estado_reservacion', 'paquetes'
+            'tipo_estancia', 'estado_reservacion', 'paquetes', 'url_camara'
         ]
+
+    def get_url_camara(self, obj):
+        return obj.habitacion.url_camara or None
 
     def get_mascota_nombre(self, obj):
         return obj.mascota.nombre if obj.mascota else None
