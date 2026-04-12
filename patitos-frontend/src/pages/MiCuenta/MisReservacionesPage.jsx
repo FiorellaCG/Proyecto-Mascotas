@@ -17,7 +17,7 @@ export default function MisReservacionesPage() {
       setLoading(true);
       const res = await getMisReservaciones();
       setReservaciones(res.data);
-    } catch (err) {
+    } catch {
       setError('Error al cargar reservaciones');
     } finally {
       setLoading(false);

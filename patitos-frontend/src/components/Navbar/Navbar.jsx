@@ -37,15 +37,7 @@ const Navbar = () => {
     setIsOpen(false);
   };
 
-  const handleNavBrandClick = () => {
-    // Si no está en la página principal, navega primero
-    if (window.location.pathname !== '/') {
-      navigate('/');
-    } else {
-      // Si ya está en la principal, solo hace scroll
-      scrollToTop();
-    }
-  };
+
 
   const handleLinkClick = (e, sectionId) => {
     const currentPath = window.location.pathname;

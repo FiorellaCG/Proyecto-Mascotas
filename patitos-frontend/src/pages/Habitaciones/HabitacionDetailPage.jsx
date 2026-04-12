@@ -120,7 +120,7 @@ export default function HabitacionDetailPage() {
       setMensajeEstado({ tipo: 'success', text: 'Estado actualizado' });
       // Recargar datos para actualizar la card y badge del encabezado
       cargarDatos();
-    } catch (err) {
+    } catch {
       setMensajeEstado({ tipo: 'error', text: 'Error al actualizar el estado' });
     }
   };
@@ -147,7 +147,7 @@ export default function HabitacionDetailPage() {
     try {
       await completarMantenimiento(mantenimiento_id, { completado })
       cargarDatos() // recarga tabla
-    } catch (err) {
+    } catch {
       alert('Error al actualizar mantenimiento')
     }
   }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 import { getTodasReservaciones, cambiarEstadoReservacion, eliminarReservacion } from '../../api/reservacionesApi';
 
 export default function ReservacionesAdminPage() {

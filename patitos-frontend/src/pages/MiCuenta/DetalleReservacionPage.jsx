@@ -24,7 +24,7 @@ export default function DetalleReservacionPage() {
       } else {
         setError("Reservación no encontrada.");
       }
-    } catch (err) {
+    } catch {
       setError("Error al cargar la reservación.");
     } finally {
       setLoading(false);

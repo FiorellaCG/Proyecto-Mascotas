@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 import { useAuth } from '../../context/AuthContext';
 import { getHabitacionesPersonal, registrarLimpieza } from '../../api/habitacionesApi';
 
 export default function RegistrarLimpiezaPage() {
   const { usuario } = useAuth();
-  const navigate = useNavigate();
+
   const [habitaciones, setHabitaciones] = useState([]);
   const [mensaje, setMensaje] = useState(null); // { tipo: 'success' | 'error', text: '' }
   const [loading, setLoading] = useState(false);

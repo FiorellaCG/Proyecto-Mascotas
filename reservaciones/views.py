@@ -4,11 +4,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.utils.timezone import now
 
-from .models import Reservacion, Tipoestancia, Estadoreservacion, Paqueteadicional, Reservacionpaquete
-from mascotas.models import Mascota
+from .models import Reservacion, Tipoestancia, Paqueteadicional, Reservacionpaquete
 from habitaciones.models import Habitacion
 from core.utils import get_usuario_session, is_admin, is_due
-from habitaciones.serializers import HabitacionListSerializer
 
 from .serializers import (
     ReservacionListSerializer, 

@@ -62,7 +62,7 @@ class ReservacionCreateSerializer(serializers.Serializer):
     paquetes_ids = serializers.ListField(child=serializers.IntegerField(), required=False, default=[])
 
     def validate(self, data):
-        usuario_id = self.context.get('usuario_id')
+
         
         # Validar mascota
         mascota_id = data.get('mascota_id')

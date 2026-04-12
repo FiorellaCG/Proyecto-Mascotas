@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from usuarios.models import Usuario
+
 from mascotas.models import Mascota, Nivelasistencia, Tipocuidadoespecial, Mascotacuidadoespecial
 from django.utils.timezone import now
 

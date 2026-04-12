@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny
 from django.utils.timezone import now
 from core.utils import get_usuario_session, is_admin
 from usuarios.serializers import LoginSerializer, UsuarioSerializer, RegistroSerializer, RolSerializer, UsuarioAdminCreateSerializer, UsuarioListSerializer

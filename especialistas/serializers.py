@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from especialistas.models import Especialista, Turno
 from usuarios.models import Usuario
-from usuarios.serializers import UsuarioListSerializer
+from usuarios.models import Usuario
 
 class TurnoSerializer(serializers.ModelSerializer):
     class Meta:

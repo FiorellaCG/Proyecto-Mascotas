@@ -16,6 +16,7 @@ import HabitacionesListPage from '../pages/Habitaciones/HabitacionesListPage';
 import HabitacionDetailPage from '../pages/Habitaciones/HabitacionDetailPage';
 import GestionUsuariosPage from '../pages/Admin/GestionUsuariosPage';
 import ReservacionesAdminPage from '../pages/Admin/ReservacionesAdminPage';
+import EspecialistaDashboardPage from '../pages/Especialista/EspecialistaDashboardPage';
 
 import MisLimpiezasPage from '../pages/Personal/MisLimpiezasPage';
 import RegistrarLimpiezaPage from '../pages/Personal/RegistrarLimpiezaPage';
@@ -54,8 +55,8 @@ function PublicOnlyRoute({ children }) {
   if (loading) return null;
   if (usuario) {
     const rutas = {
-      'Administrador': '/admin/dashboard',
-      'Dueño': '/mi-cuenta/dashboard',
+      'Administrador': '/admin/mascotas/pendientes',
+      'Dueño': '/mi-cuenta/mascotas',
       'Especialista': '/especialista/dashboard',
       'Personal limpieza': '/personal/limpiezas',
     };
@@ -64,10 +65,7 @@ function PublicOnlyRoute({ children }) {
   return children;
 }
 
-// Pŕotection Dashboards Mock Components (Placeholder if none exists)
-const AdminDashboard = () => <div style={{color:'white', padding: 20}}>Admin Dashboard</div>;
-const DuenoDashboard = () => <div style={{color:'white', padding: 20}}>Dueño Dashboard</div>;
-const EspecialistaDashboard = () => <div style={{color:'white', padding: 20}}>Especialista Dashboard</div>;
+
 
 const AppRoutes = () => {
   return (
@@ -83,7 +81,6 @@ const AppRoutes = () => {
       <Route path="/admin/*" element={
         <PrivateRoute requiredRol="Administrador">
           <Routes>
-            <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="mascotas/pendientes" element={<MascotasPendientesPage />} />
             <Route path="mascotas/todas" element={<TodasMascotasPage />} />
             <Route path="habitaciones" element={<HabitacionesListPage />} />
@@ -110,7 +107,7 @@ const AppRoutes = () => {
 
       <Route path="/especialista/*" element={
         <PrivateRoute requiredRol="Especialista">
-          <Routes><Route path="dashboard" element={<EspecialistaDashboard />} /></Routes>
+          <Routes><Route path="dashboard" element={<EspecialistaDashboardPage />} /></Routes>
         </PrivateRoute>
       } />
 

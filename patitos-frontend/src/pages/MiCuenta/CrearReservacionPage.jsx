@@ -55,7 +55,7 @@ export default function CrearReservacionPage() {
       setMascotas(resMascotas.data.filter(m => m.aprobada === true || m.aprobada === 1));
       setTiposEstancia(resEstancias.data);
       setPaquetesDisponibles(resPaquetes.data);
-    } catch (err) {
+    } catch {
       setErrorMsg('Error al cargar datos iniciales. Refresca la página.');
     } finally {
       setLoadingInit(false);
@@ -69,7 +69,7 @@ export default function CrearReservacionPage() {
       // Auto-select si hay solo una
       if (res.data.length === 1) setHabitacionId(res.data[0].habitacion_id);
       else setHabitacionId('');
-    } catch (err) {
+    } catch {
       setErrorMsg('Error al cargar habitaciones disponibles.');
     }
   };
