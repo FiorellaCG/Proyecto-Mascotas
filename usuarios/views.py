@@ -3,8 +3,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.utils.timezone import now
-from usuarios.models import Usuario
-from usuarios.serializers import LoginSerializer, UsuarioSerializer, RegistroSerializer
+from core.utils import get_usuario_session, is_admin
+from usuarios.serializers import LoginSerializer, UsuarioSerializer, RegistroSerializer, RolSerializer, UsuarioAdminCreateSerializer, UsuarioListSerializer
+from usuarios.models import Usuario, Rol
 
 class LoginView(APIView):
     permission_classes = [AllowAny]
@@ -56,3 +57,38 @@ class MeView(APIView):
             return Response(UsuarioSerializer(usuario).data, status=status.HTTP_200_OK)
         except Usuario.DoesNotExist:
             return Response({'detail': 'No autenticado'}, status=status.HTTP_401_UNAUTHORIZED)
+            
+class ListarUsuariosView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        usuario_session = get_usuario_session(request)
+        if not is_admin(usuario_session):
+            return Response({'error': 'No autorizado'}, status=403)
+        usuarios = Usuario.objects.select_related('rol').filter(activo=True).order_by('nombre')
+        serializer = UsuarioListSerializer(usuarios, many=True)
+        return Response(serializer.data)
+
+class CrearUsuarioView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        usuario_session = get_usuario_session(request)
+        if not is_admin(usuario_session):
+            return Response({'error': 'No autorizado'}, status=403)
+        serializer = UsuarioAdminCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            usuario = serializer.save()
+            return Response(UsuarioListSerializer(usuario).data, status=201)
+        return Response(serializer.errors, status=400)
+
+class ListarRolesView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        usuario_session = get_usuario_session(request)
+        if not is_admin(usuario_session):
+            return Response({'error': 'No autorizado'}, status=403)
+        roles = Rol.objects.all().order_by('rol_id')
+        serializer = RolSerializer(roles, many=True)
+        return Response(serializer.data)

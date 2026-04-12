@@ -7,9 +7,13 @@ from .views import (
     ListMantenimientosView,
     TiposHabitacionView,
     EstadosHabitacionView,
+    HabitacionesPersonalView,
+    MisLimpiezasView,
 )
 
 urlpatterns = [
+    path('personal/', HabitacionesPersonalView.as_view(), name='habitaciones_personal'),
+    path('mis-limpiezas/', MisLimpiezasView.as_view(), name='mis_limpiezas'),
     # RF-24: Tipos de habitación
     path('tipos/', TiposHabitacionView.as_view(), name='tipos_habitacion'),
     

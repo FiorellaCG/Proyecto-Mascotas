@@ -14,7 +14,7 @@ from .serializers import (
     MantenimientohabitacionSerializer, MantenimientohabitacionCreateSerializer,
     EstadohabitacionSerializer
 )
-from core.utils import get_usuario_session, is_admin
+from core.utils import get_usuario_session, is_admin, is_personal_limpieza
 
 
 # RF-19: Listar todas las habitaciones (Admin only, con filtro por estado)
@@ -225,4 +225,30 @@ class EstadosHabitacionView(APIView):
         """Obtener todos los estados de habitación"""
         estados = Estadohabitacion.objects.all()
         serializer = EstadohabitacionSerializer(estados, many=True)
+        return Response(serializer.data)
+
+class HabitacionesPersonalView(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request):
+        usuario = get_usuario_session(request)
+        if not usuario:
+            return Response({'error': 'No autenticado'}, status=401)
+        if not is_admin(usuario) and not is_personal_limpieza(usuario):
+            return Response({'error': 'Sin permiso'}, status=403)
+        queryset = Habitacion.objects.select_related(
+            'tipo_habitacion', 'estado_habitacion'
+        ).filter(activa=True)
+        return Response(HabitacionListSerializer(queryset, many=True).data)
+
+class MisLimpiezasView(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request):
+        usuario = get_usuario_session(request)
+        if not usuario:
+            return Response({'error': 'No autenticado'}, status=401)
+        limpiezas = Limpiezahabitacion.objects.filter(
+            realizada_por_id=usuario.usuario_id
+        ).select_related('habitacion__tipo_habitacion', 'habitacion__estado_habitacion')\
+         .order_by('-fecha_limpieza')
+        serializer = LimpiezahabitacionSerializer(limpiezas, many=True)
         return Response(serializer.data)

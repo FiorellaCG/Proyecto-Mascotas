@@ -78,3 +78,56 @@ class RegistroSerializer(serializers.ModelSerializer):
         )
         usuario.save()
         return usuario
+
+class RolSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rol
+        fields = ['rol_id', 'nombre']
+
+class UsuarioAdminCreateSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, required=True)
+    rol_id = serializers.IntegerField(required=True)
+    telefono = serializers.CharField(required=False, allow_blank=True)
+
+    class Meta:
+        model = Usuario
+        fields = ['nombre', 'apellidos', 'cedula', 'correo', 'telefono', 'password', 'rol_id']
+
+    def validate_cedula(self, value):
+        if Usuario.objects.filter(cedula=value).exists():
+            raise serializers.ValidationError('Ya existe un usuario con esta cédula')
+        return value
+
+    def validate_correo(self, value):
+        if Usuario.objects.filter(correo=value).exists():
+            raise serializers.ValidationError('Ya existe un usuario con este correo')
+        return value
+
+    def create(self, validated_data):
+        password = validated_data.pop('password')
+        rol_id = validated_data.pop('rol_id')
+        
+        try:
+            rol = Rol.objects.get(pk=rol_id)
+        except Rol.DoesNotExist:
+            raise serializers.ValidationError({'rol_id': 'Rol no encontrado'})
+            
+        usuario = Usuario(
+            rol=rol,
+            **validated_data,
+            password=make_password(password),
+            activo=True,
+            fecha_registro=now()
+        )
+        usuario.save()
+        return usuario
+
+class UsuarioListSerializer(serializers.ModelSerializer):
+    rol_nombre = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Usuario
+        fields = ['usuario_id', 'nombre', 'apellidos', 'cedula', 'correo', 'telefono', 'activo', 'fecha_registro', 'rol_nombre']
+
+    def get_rol_nombre(self, obj):
+        return obj.rol.nombre

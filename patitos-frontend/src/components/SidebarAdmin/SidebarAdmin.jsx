@@ -16,6 +16,7 @@ export default function SidebarAdmin() {
     { label: 'Mascotas Pendientes', path: '/admin/mascotas/pendientes', icon: '📋' },
     { label: 'Todas las Mascotas', path: '/admin/mascotas/todas', icon: '🐾' },
     { label: 'Habitaciones', path: '/admin/habitaciones', icon: '🏠' },
+    { label: 'Usuarios', path: '/admin/usuarios', icon: '👥' },
   ];
 
   return (

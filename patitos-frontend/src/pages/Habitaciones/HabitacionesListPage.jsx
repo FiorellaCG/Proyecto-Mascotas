@@ -120,7 +120,7 @@ export default function HabitacionesListPage() {
                     </td>
                     <td style={{ padding: '14px 16px' }}>
                       <button
-                        onClick={() => navigate(`/habitaciones/${hab.habitacion_id}`)}
+                        onClick={() => navigate(`/admin/habitaciones/${hab.habitacion_id}`)}
                         style={{
                           background: '#F5A800',
                           color: '#1A1A1A',

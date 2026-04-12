@@ -9,6 +9,9 @@ export const getEstadosHabitacion = () => api.get('/api/habitaciones/estados/');
 // RF-19: Listar todas las habitaciones (Admin)
 export const getTodasHabitaciones = (params) => api.get('/api/habitaciones/', { params });
 
+export const getHabitacionesPersonal = () => api.get('/api/habitaciones/personal/');
+export const getMisLimpiezas = () => api.get('/api/habitaciones/mis-limpiezas/');
+
 // RF-20: Obtener detalle de una habitación
 export const getHabitacion = (id) => api.get(`/api/habitaciones/${id}/`);
 

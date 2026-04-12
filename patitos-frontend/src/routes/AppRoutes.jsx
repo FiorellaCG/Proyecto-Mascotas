@@ -11,6 +11,10 @@ import RegistrarMascotaPage from '../pages/MiCuenta/RegistrarMascotaPage';
 import MascotaDetallePage from '../pages/MiCuenta/MascotaDetallePage';
 import HabitacionesListPage from '../pages/Habitaciones/HabitacionesListPage';
 import HabitacionDetailPage from '../pages/Habitaciones/HabitacionDetailPage';
+import GestionUsuariosPage from '../pages/Admin/GestionUsuariosPage';
+
+import MisLimpiezasPage from '../pages/Personal/MisLimpiezasPage';
+import RegistrarLimpiezaPage from '../pages/Personal/RegistrarLimpiezaPage';
 
 const PrivateRoute = ({ children, requiredRol }) => {
   const { usuario, loading } = useAuth();
@@ -49,7 +53,7 @@ function PublicOnlyRoute({ children }) {
       'Administrador': '/admin/dashboard',
       'Dueño': '/mi-cuenta/dashboard',
       'Especialista': '/especialista/dashboard',
-      'Personal limpieza': '/limpieza/dashboard',
+      'Personal limpieza': '/personal/limpiezas',
     };
     return <Navigate to={rutas[usuario.rol_nombre] || '/'} replace />;
   }
@@ -60,7 +64,6 @@ function PublicOnlyRoute({ children }) {
 const AdminDashboard = () => <div style={{color:'white', padding: 20}}>Admin Dashboard</div>;
 const DuenoDashboard = () => <div style={{color:'white', padding: 20}}>Dueño Dashboard</div>;
 const EspecialistaDashboard = () => <div style={{color:'white', padding: 20}}>Especialista Dashboard</div>;
-const LimpiezaDashboard = () => <div style={{color:'white', padding: 20}}>Limpieza Dashboard</div>;
 
 const AppRoutes = () => {
   return (
@@ -81,6 +84,7 @@ const AppRoutes = () => {
             <Route path="mascotas/todas" element={<TodasMascotasPage />} />
             <Route path="habitaciones" element={<HabitacionesListPage />} />
             <Route path="habitaciones/:id" element={<HabitacionDetailPage />} />
+            <Route path="usuarios" element={<GestionUsuariosPage />} />
           </Routes>
         </PrivateRoute>
       } />
@@ -102,9 +106,12 @@ const AppRoutes = () => {
         </PrivateRoute>
       } />
 
-      <Route path="/limpieza/*" element={
+      <Route path="/personal/*" element={
         <PrivateRoute requiredRol="Personal limpieza">
-          <Routes><Route path="dashboard" element={<LimpiezaDashboard />} /></Routes>
+          <Routes>
+            <Route path="limpiezas" element={<MisLimpiezasPage />} />
+            <Route path="limpiezas/nueva" element={<RegistrarLimpiezaPage />} />
+          </Routes>
         </PrivateRoute>
       } />
       
